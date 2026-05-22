@@ -1,0 +1,149 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/Container.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Реклами — Момчил Степанов"
+  description="Voice Over за телевизионни и радио реклами, jingles, кратки и дълги формати. Опит с български и международни брандове."
+  lang="bg"
+  canonicalPath="/bg/services/advertising"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow eyebrow--marked">Услуги · Реклами</p>
+        <h1>Реклами</h1>
+        <p class="lead muted">
+          Voice Over за телевизионни и радио реклами, jingles, кратки и дълги формати. Опит с български и международни брандове, в широк регистър от тонове и характери.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>Формати</h2>
+          <ul class="bullets">
+            <li>Телевизионни реклами (15 / 20 / 30 / 60 sec)</li>
+            <li>Радио реклами и spotове</li>
+            <li>Online промо и pre-roll</li>
+            <li>Jingles и брандови tag-ове</li>
+            <li>Кратки социални видеа</li>
+            <li>Бранд кампании, multi-spot</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>Регистър</h2>
+          <p class="muted">
+            От топъл и доверителен до енергичен и динамичен. От ироничен conversational до драматичен cinematic. Гласът се адаптира към брийфа на брандa, не обратно.
+          </p>
+
+          <h2>Езици</h2>
+          <p class="muted">Български (native). Английски (professional VO).</p>
+        </section>
+      </div>
+
+      <section class="process reveal">
+        <h2>Процес</h2>
+        <ol class="process-list">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <h3>Бриф</h3>
+              <p class="muted">Скрипт, референции, технически изисквания, deadline.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <h3>Тестов запис</h3>
+              <p class="muted">При нужда — кратко sample за одобрение на тона и характера.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <h3>Запис</h3>
+              <p class="muted">Финален запис със студийно качество, multiple takes за избор.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <div>
+              <h3>Доставка</h3>
+              <p class="muted">WAV / MP3 / AAF по спецификация. Pickup-и при обоснована необходимост.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <div class="cta-row reveal">
+        <Button href="/bg/contact" variant="primary">Запитване за реклама</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header { max-width: 820px; margin-bottom: var(--sp-9); }
+  .page-header h1 { margin-block: var(--sp-3) var(--sp-5); }
+  .lead { font-size: var(--fs-md); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-9);
+  }
+
+  @media (max-width: 767px) {
+    .content-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
+  }
+
+  .content-grid h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-4); }
+  .content-grid h2:not(:first-of-type) { margin-top: var(--sp-6); }
+
+  .bullets { display: grid; gap: var(--sp-2); }
+  .bullets li {
+    padding-left: var(--sp-5);
+    position: relative;
+    color: var(--muted);
+  }
+  .bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg);
+  }
+
+  .process h2 { margin-bottom: var(--sp-6); }
+
+  .process-list {
+    display: grid;
+    gap: var(--sp-5);
+    max-width: 720px;
+  }
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-5);
+    align-items: start;
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--line);
+  }
+  .process-list li:last-child { border-bottom: none; }
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-xl);
+    color: var(--muted);
+    font-style: italic;
+  }
+  .process-list h3 {
+    font-size: var(--fs-md);
+    margin-bottom: var(--sp-2);
+  }
+
+  .cta-row { margin-top: var(--sp-9); }
+</style>

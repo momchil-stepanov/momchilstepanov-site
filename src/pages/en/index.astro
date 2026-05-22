@@ -5,7 +5,7 @@ import Stats from '../../components/Stats.astro';
 
 const title = 'Momchil Stepanov — Voice talent, narrator, audiobook producer';
 const description =
-  'Voice for advertising, documentary, dubbing and audiobooks. Over 200 audiobooks, 5,000+ documentary productions, hundreds of films and series in dubbing. Top 3 narrator on Storytel BG 2025.';
+  'Voice for advertising, documentary and audiobooks. Over 200 audiobooks, 5,000+ documentary productions, hundreds of films and series. Top 3 narrator on Storytel BG 2025.';
 
 const stats = [
   { number: '200', sup: '+', label: 'Audiobooks' },
@@ -30,7 +30,7 @@ const stats = [
       <p class="eyebrow eyebrow--marked">Voice talent · Narrator · Producer</p>
       <h1 class="hero-title">A voice for <em>stories</em> that endure.</h1>
       <p class="hero-lead muted">
-        Voice services across advertising, documentary, dubbing and audiobooks. From production for Bulgarian publishers to international projects.
+        Voice services across advertising, documentary and audiobooks. From production for Bulgarian publishers to international projects.
       </p>
       <a href="/en/services/voice-over" class="btn">
         <span>Listen to demo</span>
@@ -46,21 +46,29 @@ const stats = [
       <header class="section-header reveal">
         <h2 class="section-title">What I <em>offer</em></h2>
         <p class="section-intro muted">
-          A voice with broad range — from intimate narration to dramatic dubbing, from corporate voice over to full audiobook production.
+          A voice with broad range — from intimate narration to energetic ad interpretation, from corporate voice over to full audiobook production.
         </p>
       </header>
 
       <div class="service-grid reveal">
         <ServiceCard
           number="01"
-          slug="Voice Over"
-          title="Voice Over"
-          description="Advertising, documentary, corporate, e-learning. Studio quality, fast turnaround."
-          href="/en/services/voice-over"
+          slug="Advertising"
+          title="Advertising"
+          description="VO for TV and radio commercials, jingles, short and long formats. Bulgarian and international brands."
+          href="/en/services/advertising"
           cta="View more"
         />
         <ServiceCard
           number="02"
+          slug="Voice Over"
+          title="Voice Over"
+          description="Documentary, corporate, e-learning, presentations. Studio quality, fast turnaround."
+          href="/en/services/voice-over"
+          cta="View more"
+        />
+        <ServiceCard
+          number="03"
           slug="Audiobooks"
           title="Audiobooks"
           description="End-to-end production. Provide the text, receive a finished book — narrator and executive producer in one."
@@ -68,14 +76,6 @@ const stats = [
           cta="View more"
           flagship
           flagshipLabel="Flagship"
-        />
-        <ServiceCard
-          number="03"
-          slug="Dubbing"
-          title="Dubbing"
-          description="Dubbing and voice acting for film, television, animation. Track record with leading Bulgarian studios."
-          href="/en/services/dubbing"
-          cta="View more"
         />
       </div>
     </div>

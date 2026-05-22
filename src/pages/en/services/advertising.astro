@@ -6,42 +6,42 @@ import Button from '../../../components/Button.astro';
 ---
 
 <BaseLayout
-  title="Voice Over — Momchil Stepanov"
-  description="Voice Over for documentary, corporate video, e-learning and presentations. Bulgarian and English. 5,000+ documentary productions in portfolio."
+  title="Advertising — Momchil Stepanov"
+  description="Voice Over for TV and radio advertising, jingles, short and long formats. Track record with Bulgarian and international brands."
   lang="en"
-  canonicalPath="/en/services/voice-over"
+  canonicalPath="/en/services/advertising"
 >
   <Section as="article">
     <Container>
       <header class="page-header reveal">
-        <p class="eyebrow eyebrow--marked">Services · Voice Over</p>
-        <h1>Voice Over</h1>
+        <p class="eyebrow eyebrow--marked">Services · Advertising</p>
+        <h1>Advertising</h1>
         <p class="lead muted">
-          Voice for documentary, corporate video, e-learning, presentations, IVR and navigation systems. 5,000+ documentary productions in portfolio.
+          Voice Over for TV and radio advertising, jingles, short and long formats. Experience with Bulgarian and international brands, across a wide register of tones and characters.
         </p>
       </header>
 
       <div class="content-grid">
         <section class="reveal">
-          <h2>Scope</h2>
+          <h2>Formats</h2>
           <ul class="bullets">
-            <li>Documentary film (science, history, nature)</li>
-            <li>Corporate video and presentations</li>
-            <li>E-learning and training modules</li>
-            <li>Explainer and product video</li>
-            <li>IVR, telephony and navigation</li>
-            <li>Audio guides and museum installations</li>
+            <li>TV commercials (15 / 20 / 30 / 60 sec)</li>
+            <li>Radio commercials and spots</li>
+            <li>Online promo and pre-roll</li>
+            <li>Jingles and brand tags</li>
+            <li>Short-form social video</li>
+            <li>Brand campaigns, multi-spot</li>
           </ul>
         </section>
 
         <section class="reveal">
-          <h2>Languages</h2>
-          <p>Bulgarian (native). English (professional level for VO productions).</p>
-
-          <h2>Studio and delivery</h2>
+          <h2>Range</h2>
           <p class="muted">
-            Recording in professional studio. Delivery as WAV / MP3 / AAF to client specification. Sync-loc, ADR and pickups on request.
+            From warm and trusting to energetic and dynamic. From ironic conversational to cinematic dramatic. The voice adapts to the brand brief, not the other way around.
           </p>
+
+          <h2>Languages</h2>
+          <p class="muted">Bulgarian (native). English (professional VO).</p>
         </section>
       </div>
 
@@ -52,13 +52,13 @@ import Button from '../../../components/Button.astro';
             <span class="step-num">01</span>
             <div>
               <h3>Brief</h3>
-              <p class="muted">We receive script, references, technical requirements.</p>
+              <p class="muted">Script, references, technical specs, deadline.</p>
             </div>
           </li>
           <li>
             <span class="step-num">02</span>
             <div>
-              <h3>Demo / test recording</h3>
+              <h3>Test recording</h3>
               <p class="muted">When needed — short sample to approve tone and character.</p>
             </div>
           </li>
@@ -73,14 +73,14 @@ import Button from '../../../components/Button.astro';
             <span class="step-num">04</span>
             <div>
               <h3>Delivery</h3>
-              <p class="muted">Final files, revisions where reasonably required.</p>
+              <p class="muted">WAV / MP3 / AAF to spec. Pickups where reasonably required.</p>
             </div>
           </li>
         </ol>
       </section>
 
       <div class="cta-row reveal">
-        <Button href="/en/contact" variant="primary">Send inquiry</Button>
+        <Button href="/en/contact" variant="primary">Advertising inquiry</Button>
       </div>
     </Container>
   </Section>
@@ -97,31 +97,42 @@ import Button from '../../../components/Button.astro';
     gap: var(--sp-8);
     margin-bottom: var(--sp-9);
   }
-
   @media (max-width: 767px) {
     .content-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
   }
-
   .content-grid h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-4); }
   .content-grid h2:not(:first-of-type) { margin-top: var(--sp-6); }
 
-  .bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); }
-  .bullets li { padding-left: var(--sp-5); position: relative; color: var(--muted); }
-  .bullets li::before { content: '—'; position: absolute; left: 0; color: var(--fg); }
+  .bullets { display: grid; gap: var(--sp-2); }
+  .bullets li {
+    padding-left: var(--sp-5);
+    position: relative;
+    color: var(--muted);
+  }
+  .bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg);
+  }
 
   .process h2 { margin-bottom: var(--sp-6); }
-  .process-list {
-    list-style: none; padding: 0; margin: 0;
-    display: grid; gap: var(--sp-5); max-width: 720px;
-  }
+  .process-list { display: grid; gap: var(--sp-5); max-width: 720px; }
   .process-list li {
-    display: grid; grid-template-columns: auto 1fr; gap: var(--sp-5);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-5);
     align-items: start;
     padding-bottom: var(--sp-5);
     border-bottom: 1px solid var(--line);
   }
   .process-list li:last-child { border-bottom: none; }
-  .step-num { font-family: var(--font-serif); font-size: var(--fs-xl); color: var(--muted); font-style: italic; }
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-xl);
+    color: var(--muted);
+    font-style: italic;
+  }
   .process-list h3 { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
 
   .cta-row { margin-top: var(--sp-9); }

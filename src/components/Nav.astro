@@ -17,11 +17,11 @@ const items: NavItem[] = [
   { label: t('nav.home'), href: `${base}` },
   {
     label: t('nav.services'),
-    href: `${base}/services/voice-over`,
+    href: `${base}/services/advertising`,
     children: [
+      { label: t('nav.services.advertising'), href: `${base}/services/advertising` },
       { label: t('nav.services.voiceOver'), href: `${base}/services/voice-over` },
       { label: t('nav.services.audiobooks'), href: `${base}/services/audiobooks` },
-      { label: t('nav.services.dubbing'), href: `${base}/services/dubbing` },
     ],
   },
   { label: t('nav.music'), href: `${base}/music` },

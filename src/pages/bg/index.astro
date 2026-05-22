@@ -5,7 +5,7 @@ import Stats from '../../components/Stats.astro';
 
 const title = 'Момчил Степанов — Voice talent, наратор, продуцент на аудиокниги';
 const description =
-  'Глас за реклами, документални филми, дублаж и аудиокниги. Над 200 аудиокниги, 5000+ документални продукции, стотици филми и сериали в дублаж. Top 3 наратор в Storytel BG 2025.';
+  'Глас за реклами, документални филми и аудиокниги. Над 200 аудиокниги, 5000+ документални продукции, стотици филми и сериали. Top 3 наратор в Storytel BG 2025.';
 
 const stats = [
   { number: '200', sup: '+', label: 'Аудиокниги' },
@@ -31,7 +31,7 @@ const stats = [
       <p class="eyebrow eyebrow--marked">Voice talent · Narrator · Producer</p>
       <h1 class="hero-title">Глас за <em>истории</em>, които остават.</h1>
       <p class="hero-lead muted">
-        Гласовите ми услуги обхващат реклами, документални филми, дублаж и аудиокниги. От продукция за български издатели до международни проекти.
+        Гласовите ми услуги обхващат реклами, документални филми и аудиокниги. От продукция за български издатели до международни проекти.
       </p>
       <a href="/bg/services/voice-over" class="btn">
         <span>Чуй демото</span>
@@ -49,21 +49,29 @@ const stats = [
       <header class="section-header reveal">
         <h2 class="section-title">Какво <em>предлагам</em></h2>
         <p class="section-intro muted">
-          Гласът ми е инструмент с широк регистър — от интимна нарация до драматичен дублаж, от корпоративен voice over до пълно audiobook продуциране.
+          Гласът ми е инструмент с широк регистър — от интимна нарация до енергична рекламна интерпретация, от корпоративен voice over до пълно audiobook продуциране.
         </p>
       </header>
 
       <div class="service-grid reveal">
         <ServiceCard
           number="01"
-          slug="Voice Over"
-          title="Voice Over"
-          description="Реклами, документални филми, корпоративни проекти, e-learning. Студийно качество, бърз turnaround."
-          href="/bg/services/voice-over"
+          slug="Advertising"
+          title="Реклами"
+          description="VO за телевизионни и радио реклами, jingles, кратки и дълги формати. Български и международни брандове."
+          href="/bg/services/advertising"
           cta="Виж повече"
         />
         <ServiceCard
           number="02"
+          slug="Voice Over"
+          title="Глас зад кадър"
+          description="Документални филми, корпоративни видеа, e-learning, презентации. Студийно качество, бърз turnaround."
+          href="/bg/services/voice-over"
+          cta="Виж повече"
+        />
+        <ServiceCard
+          number="03"
           slug="Audiobooks"
           title="Аудиокниги"
           description="End-to-end продукция. Давате текста, получавате готовата книга — наратор и изпълнителен продуцент в едно."
@@ -71,14 +79,6 @@ const stats = [
           cta="Виж повече"
           flagship
           flagshipLabel="Флагман"
-        />
-        <ServiceCard
-          number="03"
-          slug="Dubbing"
-          title="Дублаж"
-          description="Дублаж и озвучаване за филми, сериали, анимация. Опит с водещите студия в България."
-          href="/bg/services/dubbing"
-          cta="Виж повече"
         />
       </div>
     </div>
