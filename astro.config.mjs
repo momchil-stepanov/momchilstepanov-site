@@ -11,7 +11,9 @@ export default defineConfig({
     defaultLocale: 'bg',
     routing: {
       prefixDefaultLocale: true,
-      redirectToDefaultLocale: true,
+      // Explicit redirect handled by src/pages/index.astro for reliable
+      // behaviour on static hosting (Cloudflare Pages).
+      redirectToDefaultLocale: false,
     },
   },
   integrations: [
