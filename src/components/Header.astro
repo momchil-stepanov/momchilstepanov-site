@@ -1,0 +1,72 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import Nav from './Nav.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const homeHref = `/${lang}`;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href={homeHref} class="brand" aria-label={t('site.title')}>
+      <span class="brand-name">Momchil Stepanov</span>
+    </a>
+    <div class="header-end">
+      <Nav />
+      <LanguageSwitcher />
+    </div>
+  </div>
+  <hr class="divider" />
+</header>
+
+<style>
+  .site-header {
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: var(--sp-4);
+    gap: var(--sp-6);
+  }
+
+  .brand {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+  }
+
+  .brand-name {
+    display: inline-block;
+  }
+
+  .header-end {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  @media (max-width: 767px) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--sp-3);
+    }
+
+    .header-end {
+      width: 100%;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--sp-3);
+    }
+  }
+</style>

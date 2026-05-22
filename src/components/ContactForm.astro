@@ -1,0 +1,107 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import Button from './Button.astro';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+// Parse pipe-delimited project type options
+const projectTypeOptions = t('form.projectType.options').split('|').map((s) => s.trim());
+---
+
+<form class="form contact-form" method="post" action="#" novalidate>
+  <p class="muted form-intro">{t('form.intro')}</p>
+
+  <div class="form-grid">
+    <div class="form-field">
+      <label for="name">{t('form.name')}</label>
+      <input id="name" name="name" type="text" required autocomplete="name" />
+    </div>
+    <div class="form-field">
+      <label for="email">{t('form.email')}</label>
+      <input id="email" name="email" type="email" required autocomplete="email" />
+    </div>
+    <div class="form-field form-field--full">
+      <label for="company">{t('form.company')}</label>
+      <input id="company" name="company" type="text" autocomplete="organization" />
+    </div>
+    <div class="form-field">
+      <label for="projectType">{t('form.projectType')}</label>
+      <select id="projectType" name="projectType" required>
+        <option value="">—</option>
+        {projectTypeOptions.map((opt) => <option value={opt}>{opt}</option>)}
+      </select>
+    </div>
+    <div class="form-field">
+      <label for="volume">{t('form.volume')}</label>
+      <input id="volume" name="volume" type="text" />
+    </div>
+    <div class="form-field">
+      <label for="deadline">{t('form.deadline')}</label>
+      <input id="deadline" name="deadline" type="text" />
+    </div>
+    <div class="form-field">
+      <label for="endClient">{t('form.endClient')}</label>
+      <input id="endClient" name="endClient" type="text" />
+    </div>
+    <div class="form-field form-field--full">
+      <label for="rights">{t('form.rights')}</label>
+      <input id="rights" name="rights" type="text" />
+    </div>
+    <div class="form-field form-field--full">
+      <label for="message">{t('form.message')}</label>
+      <textarea id="message" name="message" rows="5"></textarea>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <Button type="submit" variant="primary">{t('form.submit')}</Button>
+    <p class="muted form-note">{t('form.note')}</p>
+  </div>
+</form>
+
+<style>
+  .contact-form {
+    max-width: 100%;
+  }
+
+  .form-intro {
+    max-width: 60ch;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-5);
+  }
+
+  .form-field--full {
+    grid-column: 1 / -1;
+  }
+
+  .form-field select {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    padding: var(--sp-3) 0;
+    cursor: pointer;
+  }
+
+  .form-actions {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    align-items: flex-start;
+    margin-top: var(--sp-3);
+  }
+
+  .form-note {
+    font-size: var(--fs-xs);
+  }
+
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

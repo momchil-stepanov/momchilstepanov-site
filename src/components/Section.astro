@@ -1,0 +1,25 @@
+---
+interface Props {
+  as?: string;
+  class?: string;
+  tight?: boolean;
+  bordered?: boolean;
+}
+
+const { as: Tag = 'section', class: className = '', tight = false, bordered = false } = Astro.props;
+
+const classes = ['section'];
+if (tight) classes.push('section--tight');
+if (bordered) classes.push('section--bordered');
+if (className) classes.push(className);
+---
+
+<Tag class={classes.join(' ')}>
+  <slot />
+</Tag>
+
+<style>
+  .section--bordered {
+    border-top: 1px solid var(--line);
+  }
+</style>

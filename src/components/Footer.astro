@@ -1,0 +1,132 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { profiles } from '../data/profiles';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = `/${lang}`;
+const year = new Date().getFullYear();
+
+const navLinks = [
+  { label: t('nav.home'), href: base },
+  { label: t('nav.services.voiceOver'), href: `${base}/services/voice-over` },
+  { label: t('nav.services.audiobooks'), href: `${base}/services/audiobooks` },
+  { label: t('nav.services.dubbing'), href: `${base}/services/dubbing` },
+  { label: t('nav.music'), href: `${base}/music` },
+  { label: t('nav.about'), href: `${base}/about` },
+  { label: t('nav.contact'), href: `${base}/contact` },
+];
+---
+
+<footer class="site-footer">
+  <hr class="divider" />
+  <div class="container footer-inner">
+    <div class="footer-col footer-col--brand">
+      <p class="brand">Momchil Stepanov</p>
+      <p class="muted">{t('site.tagline')}</p>
+    </div>
+
+    <div class="footer-col">
+      <h6 class="footer-heading">{t('footer.navigation')}</h6>
+      <ul class="footer-list">
+        {
+          navLinks.map((link) => (
+            <li>
+              <a href={link.href} class="footer-link">
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <h6 class="footer-heading">{t('footer.profiles')}</h6>
+      <ul class="footer-list">
+        {
+          profiles.map((profile) => (
+            <li>
+              <a
+                href={profile.url}
+                class="footer-link"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {profile.name}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="container footer-bottom">
+    <p class="muted">© {year} Momchil Stepanov. {t('footer.rights')}</p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--sp-9);
+    padding-block: var(--sp-8) var(--sp-5);
+  }
+
+  .footer-inner {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: var(--sp-7);
+    padding-block: var(--sp-7);
+  }
+
+  .footer-col--brand .brand {
+    font-family: var(--font-serif);
+    font-size: var(--fs-md);
+    margin-bottom: var(--sp-2);
+  }
+
+  .footer-heading {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin-bottom: var(--sp-4);
+    font-weight: 500;
+  }
+
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .footer-link {
+    font-size: var(--fs-sm);
+    color: var(--fg);
+    transition: color var(--t-fast);
+  }
+
+  .footer-link:hover {
+    color: var(--muted);
+  }
+
+  .footer-bottom {
+    padding-top: var(--sp-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .footer-bottom .muted {
+    font-size: var(--fs-xs);
+  }
+
+  @media (max-width: 767px) {
+    .footer-inner {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+    }
+  }
+</style>

@@ -1,0 +1,73 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  href: string;
+  cta: string;
+  flagship?: boolean;
+}
+
+const { eyebrow, title, description, href, cta, flagship = false } = Astro.props;
+---
+
+<a href={href} class={`service-card reveal ${flagship ? 'service-card--flagship' : ''}`}>
+  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+  <h3 class="service-card__title">{title}</h3>
+  <p class="service-card__desc muted">{description}</p>
+  <span class="service-card__cta">
+    {cta}
+    <span class="arrow" aria-hidden="true">→</span>
+  </span>
+</a>
+
+<style>
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-6);
+    border: 1px solid var(--line);
+    transition: border-color var(--t-base), transform var(--t-base);
+    background: var(--bg);
+    height: 100%;
+  }
+
+  .service-card:hover {
+    border-color: var(--fg);
+  }
+
+  .service-card:hover .arrow {
+    transform: translateX(4px);
+  }
+
+  .service-card--flagship {
+    border-color: var(--fg);
+  }
+
+  .service-card__title {
+    font-size: var(--fs-lg);
+    margin-block: var(--sp-2);
+  }
+
+  .service-card__desc {
+    font-size: var(--fs-sm);
+    flex-grow: 1;
+  }
+
+  .service-card__cta {
+    font-family: var(--font-sans);
+    font-size: var(--fs-sm);
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: var(--sp-3);
+    color: var(--fg);
+  }
+
+  .arrow {
+    display: inline-block;
+    margin-left: var(--sp-2);
+    transition: transform var(--t-base);
+  }
+</style>

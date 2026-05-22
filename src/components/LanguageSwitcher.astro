@@ -1,0 +1,36 @@
+---
+import { getLangFromUrl, useTranslations, getAlternatePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const targetLang = lang === 'bg' ? 'en' : 'bg';
+const targetPath = getAlternatePath(Astro.url.pathname, targetLang);
+---
+
+<a
+  href={targetPath}
+  class="lang-switch"
+  hreflang={targetLang}
+  aria-label={t('lang.switchLabel')}
+>
+  {t('lang.switch')}
+</a>
+
+<style>
+  .lang-switch {
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: var(--sp-2) var(--sp-3);
+    border: 1px solid var(--line);
+    transition: color var(--t-fast), border-color var(--t-fast);
+  }
+
+  .lang-switch:hover {
+    color: var(--fg);
+    border-color: var(--fg);
+  }
+</style>

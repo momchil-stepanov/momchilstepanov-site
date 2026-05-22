@@ -1,0 +1,103 @@
+---
+import type { Lang } from '../i18n/ui';
+import { sameAs } from '../data/profiles';
+
+interface Props {
+  title: string;
+  description: string;
+  lang: Lang;
+  canonicalPath: string;
+  /** If true, include schema.org Person JSON-LD (use on home only). */
+  includePersonSchema?: boolean;
+  /** Absolute URL of OpenGraph image, or path relative to site root. */
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  lang,
+  canonicalPath,
+  includePersonSchema = false,
+  ogImage = '/og-default.jpg',
+} = Astro.props;
+
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://momchilstepanov.com';
+const canonicalUrl = `${siteUrl}${canonicalPath}`;
+const ogImageUrl = ogImage.startsWith('http') ? ogImage : `${siteUrl}${ogImage}`;
+
+// Alternate language paths for hreflang
+const stripped = canonicalPath.replace(/^\/(bg|en)/, '') || '/';
+const bgPath = `/bg${stripped === '/' ? '' : stripped}`;
+const enPath = `/en${stripped === '/' ? '' : stripped}`;
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Момчил Степанов',
+  alternateName: 'Momchil Stepanov',
+  description:
+    lang === 'bg'
+      ? 'Български voice talent, наратор и продуцент на аудиокниги. Председател на ГАРД, член на УС на АртистАутор.'
+      : 'Bulgarian voice talent, narrator and audiobook producer. Chairman of GARD, board member of ArtistAutor.',
+  jobTitle:
+    lang === 'bg'
+      ? 'Voice talent, наратор, продуцент на аудиокниги'
+      : 'Voice talent, narrator, audiobook producer',
+  url: siteUrl,
+  inLanguage: lang === 'bg' ? 'bg-BG' : 'en-US',
+  nationality: {
+    '@type': 'Country',
+    name: 'Bulgaria',
+  },
+  sameAs,
+};
+---
+
+<!-- Charset and viewport -->
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="generator" content={Astro.generator} />
+
+<!-- Primary meta -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Favicon -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+<!-- hreflang -->
+<link rel="alternate" hreflang="bg" href={`${siteUrl}${bgPath}`} />
+<link rel="alternate" hreflang="en" href={`${siteUrl}${enPath}`} />
+<link rel="alternate" hreflang="x-default" href={`${siteUrl}${bgPath}`} />
+
+<!-- OpenGraph -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:locale" content={lang === 'bg' ? 'bg_BG' : 'en_US'} />
+<meta property="og:site_name" content="Momchil Stepanov" />
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<!-- Fonts (preconnect + Cormorant Garamond + Inter, Cyrillic + Latin) -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  rel="stylesheet"
+  href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600&display=swap&subset=cyrillic,latin"
+/>
+
+<!-- schema.org Person (home page only) -->
+{
+  includePersonSchema && (
+    <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  )
+}
