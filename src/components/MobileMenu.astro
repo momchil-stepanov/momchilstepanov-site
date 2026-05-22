@@ -1,0 +1,400 @@
+---
+import { getLangFromUrl, useTranslations, getAlternatePath } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+const base = `/${lang}`;
+const targetLang = lang === 'bg' ? 'en' : 'bg';
+const targetPath = getAlternatePath(Astro.url.pathname, targetLang);
+
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+// Top-level nav structure. "services" is a toggle, not a link.
+const services = [
+  { label: t('nav.services.advertising'), href: `${base}/services/advertising` },
+  { label: t('nav.services.voiceOver'), href: `${base}/services/voice-over` },
+  { label: t('nav.services.audiobooks'), href: `${base}/services/audiobooks` },
+];
+
+const topLinks = [
+  { label: t('nav.home'), href: `${base}` },
+  { label: t('nav.music'), href: `${base}/music` },
+  { label: t('nav.about'), href: `${base}/about` },
+  { label: t('nav.contact'), href: `${base}/contact` },
+];
+
+const servicesOpen = currentPath.startsWith(`${base}/services`);
+---
+
+<button
+  class="burger"
+  type="button"
+  aria-label="Open menu"
+  aria-expanded="false"
+  aria-controls="mobile-menu"
+  data-burger
+>
+  <span class="burger-line burger-line--top" aria-hidden="true"></span>
+  <span class="burger-line burger-line--mid" aria-hidden="true"></span>
+  <span class="burger-line burger-line--bot" aria-hidden="true"></span>
+</button>
+
+<div
+  id="mobile-menu"
+  class="mobile-menu"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Site menu"
+  hidden
+  data-menu
+>
+  <nav class="mobile-nav" aria-label="Primary mobile">
+    <ul class="mobile-list">
+      {/* Home */}
+      <li class="mobile-item">
+        <a href={topLinks[0].href} class="mobile-link" data-close>
+          <span>{topLinks[0].label}</span>
+          <span class="mobile-arrow" aria-hidden="true">→</span>
+        </a>
+      </li>
+
+      {/* Services — submenu toggle */}
+      <li class="mobile-item has-submenu" data-submenu-item>
+        <button
+          type="button"
+          class="mobile-link mobile-link--toggle"
+          aria-expanded={servicesOpen ? 'true' : 'false'}
+          aria-controls="mobile-submenu-services"
+          data-submenu-toggle
+        >
+          <span>{t('nav.services')}</span>
+          <span class="mobile-toggle-indicator" aria-hidden="true">
+            <span class="indicator-closed">+</span>
+            <span class="indicator-open">−</span>
+          </span>
+        </button>
+        <ul
+          id="mobile-submenu-services"
+          class="mobile-submenu"
+          hidden={!servicesOpen}
+          data-submenu
+        >
+          {
+            services.map((s) => (
+              <li>
+                <a href={s.href} class="mobile-sublink" data-close>
+                  {s.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </li>
+
+      {/* Remaining top-level links */}
+      {
+        topLinks.slice(1).map((link) => (
+          <li class="mobile-item">
+            <a href={link.href} class="mobile-link" data-close>
+              <span>{link.label}</span>
+              <span class="mobile-arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+
+  <footer class="mobile-footer">
+    <div class="mobile-lang">
+      <span class="lang-current">{lang.toUpperCase()}</span>
+      <span class="lang-divider" aria-hidden="true">/</span>
+      <a href={targetPath} class="lang-target" hreflang={targetLang} data-close>
+        {targetLang.toUpperCase()}
+      </a>
+    </div>
+    <p class="mobile-marker">MS — Sofia</p>
+  </footer>
+</div>
+
+<script>
+  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+  const submenuToggle = document.querySelector<HTMLButtonElement>('[data-submenu-toggle]');
+  const submenu = document.querySelector<HTMLElement>('[data-submenu]');
+  const closeTriggers = document.querySelectorAll<HTMLElement>('[data-close]');
+
+  if (burger && menu) {
+    const open = () => {
+      menu.hidden = false;
+      // Allow next frame so transition can play
+      requestAnimationFrame(() => {
+        document.body.classList.add('is-menu-open');
+        burger.classList.add('is-active');
+        burger.setAttribute('aria-expanded', 'true');
+        burger.setAttribute('aria-label', 'Close menu');
+        menu.classList.add('is-open');
+      });
+    };
+
+    const close = () => {
+      document.body.classList.remove('is-menu-open');
+      burger.classList.remove('is-active');
+      burger.setAttribute('aria-expanded', 'false');
+      burger.setAttribute('aria-label', 'Open menu');
+      menu.classList.remove('is-open');
+      // Wait for transition before hiding (matches CSS .3s)
+      setTimeout(() => {
+        if (!menu.classList.contains('is-open')) menu.hidden = true;
+      }, 300);
+    };
+
+    burger.addEventListener('click', () => {
+      const isOpen = menu.classList.contains('is-open');
+      isOpen ? close() : open();
+    });
+
+    closeTriggers.forEach((el) => {
+      el.addEventListener('click', () => close());
+    });
+
+    // Close on Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
+        close();
+      }
+    });
+
+    // Close on tap of overlay backdrop (clicks on the dialog element itself,
+    // not its children — children stop propagation via being interactive)
+    menu.addEventListener('click', (e) => {
+      if (e.target === menu) close();
+    });
+  }
+
+  if (submenuToggle && submenu) {
+    submenuToggle.addEventListener('click', () => {
+      const expanded = submenuToggle.getAttribute('aria-expanded') === 'true';
+      submenuToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+      submenu.hidden = expanded;
+    });
+  }
+</script>
+
+<style is:global>
+  /* Body lock when menu open */
+  body.is-menu-open {
+    overflow: hidden;
+  }
+</style>
+
+<style>
+  /* ============================================================
+     Burger button — visible only on mobile / tablet
+     ============================================================ */
+  .burger {
+    display: none;
+    position: relative;
+    width: 28px;
+    height: 18px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    z-index: 60;
+  }
+
+  @media (max-width: 900px) {
+    .burger {
+      display: inline-block;
+    }
+  }
+
+  .burger-line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--fg);
+    transition: transform 0.3s ease, opacity 0.3s ease, top 0.3s ease;
+  }
+
+  .burger-line--top { top: 0; }
+  .burger-line--mid { top: 50%; transform: translateY(-50%); }
+  .burger-line--bot { top: 100%; transform: translateY(-100%); }
+
+  /* X state */
+  .burger.is-active .burger-line--top {
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+
+  .burger.is-active .burger-line--mid {
+    opacity: 0;
+  }
+
+  .burger.is-active .burger-line--bot {
+    top: 50%;
+    transform: translateY(-50%) rotate(-45deg);
+  }
+
+  /* ============================================================
+     Mobile menu overlay
+     ============================================================ */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 55;
+    display: flex;
+    flex-direction: column;
+    padding: 100px 32px 32px;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  .mobile-menu.is-open {
+    opacity: 1;
+  }
+
+  .mobile-menu[hidden] {
+    display: none;
+  }
+
+  /* ============================================================
+     Mobile nav list
+     ============================================================ */
+  .mobile-nav {
+    flex: 1;
+  }
+
+  .mobile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .mobile-link {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--fg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 24px 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .mobile-arrow {
+    font-size: 18px;
+    color: var(--muted);
+    transition: transform var(--t-base), color var(--t-fast);
+  }
+
+  .mobile-link:hover .mobile-arrow {
+    color: var(--fg);
+    transform: translateX(4px);
+  }
+
+  /* ============================================================
+     Submenu toggle indicator (+ / −)
+     ============================================================ */
+  .mobile-toggle-indicator {
+    width: 18px;
+    height: 18px;
+    color: var(--muted);
+    font-size: 22px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .indicator-closed,
+  .indicator-open {
+    display: inline-block;
+  }
+
+  /* Show only the appropriate indicator based on expanded state */
+  [data-submenu-toggle][aria-expanded='false'] .indicator-open,
+  [data-submenu-toggle][aria-expanded='true'] .indicator-closed {
+    display: none;
+  }
+
+  /* ============================================================
+     Submenu
+     ============================================================ */
+  .mobile-submenu {
+    list-style: none;
+    padding: 0 0 24px 0;
+    margin: 0;
+    padding-left: 24px;
+    border-left: 1px solid var(--line);
+    margin-left: 4px;
+    display: grid;
+    gap: 16px;
+  }
+
+  .mobile-sublink {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--muted);
+    display: block;
+    transition: color var(--t-fast);
+  }
+
+  .mobile-sublink:hover {
+    color: var(--fg);
+  }
+
+  /* ============================================================
+     Mobile footer (lang + city marker)
+     ============================================================ */
+  .mobile-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 24px;
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .mobile-lang {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--fg);
+  }
+
+  .mobile-lang .lang-current { opacity: 1; }
+  .mobile-lang .lang-divider { opacity: 0.4; }
+  .mobile-lang .lang-target {
+    opacity: 0.5;
+    transition: opacity var(--t-fast);
+  }
+  .mobile-lang .lang-target:hover { opacity: 1; }
+
+  .mobile-marker {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+</style>

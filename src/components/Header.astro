@@ -2,6 +2,7 @@
 import { getLangFromUrl, useTranslations } from '../i18n/utils';
 import Nav from './Nav.astro';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import MobileMenu from './MobileMenu.astro';
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
@@ -13,8 +14,13 @@ const homeHref = `/${lang}`;
     <a href={homeHref} class="brand" aria-label={t('site.title')}>
       <span>Момчил Степанов</span>
     </a>
-    <Nav />
-    <LanguageSwitcher />
+    <div class="header-end header-end--desktop">
+      <Nav />
+      <LanguageSwitcher />
+    </div>
+    <div class="header-end header-end--mobile">
+      <MobileMenu />
+    </div>
   </div>
 </header>
 
@@ -47,17 +53,39 @@ const homeHref = `/${lang}`;
     letter-spacing: 0.05em;
     color: var(--fg);
     white-space: nowrap;
+    z-index: 60;
+    position: relative;
+  }
+
+  .header-end {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-6);
+  }
+
+  .header-end--desktop {
+    display: flex;
+  }
+
+  .header-end--mobile {
+    display: none;
   }
 
   @media (max-width: 900px) {
     .header-inner {
       padding-block: var(--sp-4);
-      flex-wrap: wrap;
-      gap: var(--sp-3);
     }
 
     .brand {
       font-size: 1.125rem;
+    }
+
+    .header-end--desktop {
+      display: none;
+    }
+
+    .header-end--mobile {
+      display: flex;
     }
   }
 </style>
