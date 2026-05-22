@@ -12,9 +12,19 @@ interface Props {
   canonicalPath: string;
   includePersonSchema?: boolean;
   ogImage?: string;
+  /** Hide header (e.g. for hero-immersive pages). Default false. */
+  hideHeader?: boolean;
 }
 
-const { title, description, lang, canonicalPath, includePersonSchema, ogImage } = Astro.props;
+const {
+  title,
+  description,
+  lang,
+  canonicalPath,
+  includePersonSchema,
+  ogImage,
+  hideHeader = false,
+} = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -31,13 +41,12 @@ const { title, description, lang, canonicalPath, includePersonSchema, ogImage } 
   </head>
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
-    <Header />
+    {!hideHeader && <Header />}
     <main id="main">
       <slot />
     </main>
     <Footer />
 
-    <!-- Scroll reveal — tiny inline observer, no framework -->
     <script>
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(
@@ -56,22 +65,5 @@ const { title, description, lang, canonicalPath, includePersonSchema, ogImage } 
         document.querySelectorAll('.reveal').forEach((el) => el.classList.add('is-visible'));
       }
     </script>
-
-    <style>
-      .skip-link {
-        position: absolute;
-        left: -9999px;
-        top: 0;
-        background: var(--fg);
-        color: var(--bg);
-        padding: var(--sp-3) var(--sp-5);
-        z-index: 1000;
-      }
-
-      .skip-link:focus {
-        left: var(--sp-5);
-        top: var(--sp-5);
-      }
-    </style>
   </body>
 </html>

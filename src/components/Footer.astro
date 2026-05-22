@@ -19,15 +19,14 @@ const navLinks = [
 ---
 
 <footer class="site-footer">
-  <hr class="divider" />
   <div class="container footer-inner">
     <div class="footer-col footer-col--brand">
-      <p class="brand">Momchil Stepanov</p>
-      <p class="muted">{t('site.tagline')}</p>
+      <p class="brand">Момчил Степанов</p>
+      <p class="brand-role">{t('site.tagline')}</p>
     </div>
 
     <div class="footer-col">
-      <h6 class="footer-heading">{t('footer.navigation')}</h6>
+      <h6 class="footer-heading eyebrow eyebrow--marked">{t('footer.navigation')}</h6>
       <ul class="footer-list">
         {
           navLinks.map((link) => (
@@ -42,7 +41,7 @@ const navLinks = [
     </div>
 
     <div class="footer-col">
-      <h6 class="footer-heading">{t('footer.profiles')}</h6>
+      <h6 class="footer-heading eyebrow eyebrow--marked">{t('footer.profiles')}</h6>
       <ul class="footer-list">
         {
           profiles.map((profile) => (
@@ -63,70 +62,73 @@ const navLinks = [
   </div>
 
   <div class="container footer-bottom">
-    <p class="muted">© {year} Momchil Stepanov. {t('footer.rights')}</p>
+    <p class="footer-copy">© {year} Момчил Степанов · {t('footer.rights')}</p>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    margin-top: var(--sp-9);
-    padding-block: var(--sp-8) var(--sp-5);
+    margin-top: var(--sp-10);
+    padding-block: var(--sp-9) var(--sp-6);
+    border-top: 1px solid var(--line);
   }
 
   .footer-inner {
     display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: var(--sp-7);
-    padding-block: var(--sp-7);
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: var(--sp-9);
+    padding-bottom: var(--sp-9);
   }
 
   .footer-col--brand .brand {
     font-family: var(--font-serif);
-    font-size: var(--fs-md);
+    font-size: 1.5rem;
+    font-weight: 500;
     margin-bottom: var(--sp-2);
   }
 
-  .footer-heading {
-    font-family: var(--font-sans);
-    font-size: var(--fs-xs);
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
+  .footer-col--brand .brand-role {
+    font-size: var(--fs-sm);
     color: var(--muted);
-    margin-bottom: var(--sp-4);
-    font-weight: 500;
+    max-width: 32ch;
+  }
+
+  .footer-heading {
+    margin-bottom: var(--sp-5);
   }
 
   .footer-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: grid;
-    gap: var(--sp-2);
+    gap: var(--sp-3);
   }
 
   .footer-link {
+    font-family: var(--font-sans);
     font-size: var(--fs-sm);
     color: var(--fg);
-    transition: color var(--t-fast);
+    opacity: 0.7;
+    transition: opacity var(--t-fast);
   }
 
   .footer-link:hover {
-    color: var(--muted);
+    opacity: 1;
   }
 
   .footer-bottom {
-    padding-top: var(--sp-5);
+    padding-top: var(--sp-6);
     border-top: 1px solid var(--line);
   }
 
-  .footer-bottom .muted {
+  .footer-copy {
     font-size: var(--fs-xs);
+    color: var(--muted);
+    letter-spacing: 0.08em;
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .footer-inner {
       grid-template-columns: 1fr;
-      gap: var(--sp-6);
+      gap: var(--sp-7);
     }
   }
 </style>

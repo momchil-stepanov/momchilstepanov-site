@@ -1,73 +1,135 @@
 ---
 interface Props {
-  eyebrow?: string;
+  number: string;
+  /** Used in the "NN / Slug" italic marker; falls back to title if omitted. */
+  slug?: string;
   title: string;
   description: string;
   href: string;
   cta: string;
   flagship?: boolean;
+  flagshipLabel?: string;
 }
 
-const { eyebrow, title, description, href, cta, flagship = false } = Astro.props;
+const {
+  number,
+  slug,
+  title,
+  description,
+  href,
+  cta,
+  flagship = false,
+  flagshipLabel = 'Флагман',
+} = Astro.props;
+
+const marker = slug ? `${number} / ${slug}` : number;
 ---
 
-<a href={href} class={`service-card reveal ${flagship ? 'service-card--flagship' : ''}`}>
-  {eyebrow && <span class="eyebrow">{eyebrow}</span>}
-  <h3 class="service-card__title">{title}</h3>
-  <p class="service-card__desc muted">{description}</p>
-  <span class="service-card__cta">
-    {cta}
-    <span class="arrow" aria-hidden="true">→</span>
-  </span>
+<a href={href} class={`service ${flagship ? 'flagship' : ''}`}>
+  {flagship && <span class="flagship-badge">— {flagshipLabel}</span>}
+  <div class="service-number">{marker}</div>
+  <h3 class="service-title">{title}</h3>
+  <p class="service-desc">{description}</p>
+  <div class="service-link">{cta} <span class="arrow" aria-hidden="true">→</span></div>
 </a>
 
 <style>
-  .service-card {
-    display: flex;
-    flex-direction: column;
-    gap: var(--sp-3);
-    padding: var(--sp-6);
-    border: 1px solid var(--line);
-    transition: border-color var(--t-base), transform var(--t-base);
+  .service {
     background: var(--bg);
-    height: 100%;
+    padding: var(--sp-7) var(--sp-6) var(--sp-8);
+    cursor: pointer;
+    transition: background var(--t-base);
+    position: relative;
+    display: block;
+    color: var(--fg);
+    text-decoration: none;
+    min-height: 320px;
   }
 
-  .service-card:hover {
-    border-color: var(--fg);
+  .service:hover {
+    background: var(--bg-elevated);
   }
 
-  .service-card:hover .arrow {
-    transform: translateX(4px);
-  }
-
-  .service-card--flagship {
-    border-color: var(--fg);
-  }
-
-  .service-card__title {
-    font-size: var(--fs-lg);
-    margin-block: var(--sp-2);
-  }
-
-  .service-card__desc {
+  .service-number {
+    font-family: var(--font-serif);
     font-size: var(--fs-sm);
-    flex-grow: 1;
+    color: var(--muted);
+    margin-bottom: var(--sp-6);
+    font-style: italic;
   }
 
-  .service-card__cta {
-    font-family: var(--font-sans);
-    font-size: var(--fs-sm);
+  .service-title {
+    font-size: var(--fs-xl);
     font-weight: 500;
-    letter-spacing: 0.04em;
+    line-height: 1.1;
+    margin-bottom: var(--sp-4);
+  }
+
+  .service-desc {
+    color: var(--muted);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    max-width: 32ch;
+  }
+
+  .service-link {
+    position: absolute;
+    bottom: var(--sp-6);
+    right: var(--sp-6);
+    font-family: var(--font-sans);
+    font-size: var(--fs-xs);
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-top: var(--sp-3);
+    opacity: 0;
+    transition: opacity var(--t-base);
     color: var(--fg);
   }
 
-  .arrow {
+  .service-link .arrow {
     display: inline-block;
-    margin-left: var(--sp-2);
     transition: transform var(--t-base);
+    margin-left: var(--sp-2);
+  }
+
+  .service:hover .service-link {
+    opacity: 0.7;
+  }
+
+  .service:hover .service-link .arrow {
+    transform: translateX(4px);
+  }
+
+  /* Flagship variant */
+  .flagship {
+    background: var(--bg-flagship);
+    border-left: 2px solid var(--fg);
+  }
+
+  .flagship .service-number {
+    color: var(--fg);
+  }
+
+  .flagship-badge {
+    position: absolute;
+    top: var(--sp-6);
+    right: var(--sp-6);
+    font-family: var(--font-sans);
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @media (max-width: 600px) {
+    .service {
+      padding: var(--sp-6) var(--sp-5) var(--sp-7);
+      min-height: 260px;
+    }
+
+    .service-link {
+      bottom: var(--sp-5);
+      right: var(--sp-5);
+      opacity: 0.7;
+    }
   }
 </style>

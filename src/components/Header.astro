@@ -9,64 +9,55 @@ const homeHref = `/${lang}`;
 ---
 
 <header class="site-header">
-  <div class="container header-inner">
+  <div class="header-inner">
     <a href={homeHref} class="brand" aria-label={t('site.title')}>
-      <span class="brand-name">Momchil Stepanov</span>
+      <span>Момчил Степанов</span>
     </a>
-    <div class="header-end">
-      <Nav />
-      <LanguageSwitcher />
-    </div>
+    <Nav />
+    <LanguageSwitcher />
   </div>
-  <hr class="divider" />
 </header>
 
 <style>
   .site-header {
-    background: var(--bg);
-    position: sticky;
+    position: fixed;
     top: 0;
-    z-index: 100;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: linear-gradient(180deg, rgba(10, 10, 10, 0.9) 0%, rgba(10, 10, 10, 0) 100%);
+    pointer-events: none;
   }
 
   .header-inner {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding-block: var(--sp-4);
-    gap: var(--sp-6);
+    align-items: center;
+    padding: var(--sp-5) var(--container-padding);
+    gap: var(--sp-7);
+    max-width: var(--container-max);
+    margin: 0 auto;
+    pointer-events: auto;
   }
 
   .brand {
     font-family: var(--font-serif);
-    font-size: var(--fs-md);
+    font-size: 1.375rem;
     font-weight: 500;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.05em;
     color: var(--fg);
+    white-space: nowrap;
   }
 
-  .brand-name {
-    display: inline-block;
-  }
-
-  .header-end {
-    display: flex;
-    align-items: center;
-    gap: var(--sp-5);
-  }
-
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .header-inner {
-      flex-direction: column;
-      align-items: flex-start;
+      padding-block: var(--sp-4);
+      flex-wrap: wrap;
       gap: var(--sp-3);
     }
 
-    .header-end {
-      width: 100%;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: var(--sp-3);
+    .brand {
+      font-size: 1.125rem;
     }
   }
 </style>

@@ -70,11 +70,8 @@ function isActive(href: string): boolean {
 
 <style>
   .nav-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
     display: flex;
-    gap: var(--sp-6);
+    gap: 2.5rem;
     align-items: center;
   }
 
@@ -85,29 +82,19 @@ function isActive(href: string): boolean {
   .nav-link {
     font-family: var(--font-sans);
     font-size: var(--fs-sm);
-    font-weight: 500;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
     color: var(--fg);
+    opacity: 0.7;
     padding: var(--sp-3) 0;
     display: inline-block;
-    position: relative;
-    transition: color var(--t-fast);
+    transition: opacity var(--t-base);
   }
 
-  .nav-link::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 0;
-    height: 1px;
-    background: currentColor;
-    transition: width var(--t-base), left var(--t-base);
-  }
-
-  .nav-link:hover::after,
-  .nav-link.is-active::after {
-    width: 100%;
-    left: 0;
+  .nav-link:hover,
+  .nav-link.is-active {
+    opacity: 1;
   }
 
   .nav-submenu {
@@ -115,12 +102,10 @@ function isActive(href: string): boolean {
     top: 100%;
     left: 50%;
     transform: translateX(-50%);
-    list-style: none;
     padding: var(--sp-3);
-    margin: 0;
-    background: var(--bg);
+    background: var(--bg-elevated);
     border: 1px solid var(--line);
-    min-width: 200px;
+    min-width: 220px;
     opacity: 0;
     visibility: hidden;
     transition: opacity var(--t-base), visibility var(--t-base);
@@ -135,27 +120,34 @@ function isActive(href: string): boolean {
 
   .nav-sublink {
     display: block;
-    padding: var(--sp-2) var(--sp-3);
+    padding: var(--sp-3) var(--sp-4);
     font-family: var(--font-sans);
     font-size: var(--fs-sm);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--fg);
+    opacity: 0.7;
     white-space: nowrap;
-    transition: background var(--t-fast);
+    transition: opacity var(--t-fast), background var(--t-fast);
   }
 
-  .nav-sublink:hover {
-    background: var(--line);
-  }
-
+  .nav-sublink:hover,
   .nav-sublink.is-active {
-    color: var(--muted);
+    opacity: 1;
+    background: var(--bg);
   }
 
-  @media (max-width: 767px) {
+  @media (max-width: 900px) {
     .nav-list {
-      gap: var(--sp-4);
+      gap: var(--sp-5);
       flex-wrap: wrap;
       justify-content: center;
+      order: 3;
+      width: 100%;
+    }
+
+    .nav-link {
+      padding: var(--sp-2) 0;
     }
 
     .nav-submenu {
@@ -165,7 +157,9 @@ function isActive(href: string): boolean {
       visibility: visible;
       display: none;
       border: none;
-      padding: var(--sp-2) 0 0;
+      background: transparent;
+      padding: var(--sp-2) 0;
+      min-width: 0;
     }
 
     .has-children:hover .nav-submenu,

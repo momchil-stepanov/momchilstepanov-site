@@ -1,0 +1,86 @@
+---
+interface Stat {
+  number: string;
+  /** Optional small superscript (e.g. "+"). */
+  sup?: string;
+  label: string;
+}
+
+interface Props {
+  items: Stat[];
+}
+
+const { items } = Astro.props;
+---
+
+<section class="stats reveal" aria-label="Key figures">
+  <div class="container stats-grid">
+    {
+      items.map((stat) => (
+        <div class="stat">
+          <div class="stat-number">
+            {stat.number}
+            {stat.sup && <sup>{stat.sup}</sup>}
+          </div>
+          <div class="stat-label">{stat.label}</div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .stats {
+    padding-block: var(--sp-10);
+    border-top: 1px solid var(--line);
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--sp-7);
+  }
+
+  .stat {
+    border-left: 1px solid var(--line);
+    padding-left: var(--sp-5);
+  }
+
+  .stat-number {
+    font-family: var(--font-serif);
+    font-size: var(--fs-3xl);
+    line-height: 1;
+    font-weight: 400;
+    margin-bottom: var(--sp-3);
+    color: var(--fg);
+  }
+
+  .stat-number sup {
+    font-size: 0.4em;
+    vertical-align: super;
+    font-weight: 400;
+    margin-left: 0.05em;
+  }
+
+  .stat-label {
+    font-size: var(--fs-xs);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--sp-6);
+    }
+  }
+
+  @media (max-width: 500px) {
+    .stats-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-5);
+    }
+  }
+</style>
