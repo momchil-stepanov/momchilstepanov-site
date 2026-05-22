@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Section from '../../components/Section.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Button from '../../components/Button.astro';
+
+const title = 'Момчил Степанов — Voice talent, наратор, продуцент на аудиокниги';
+const description =
+  'Voice talent с над 5000 документални продукции и 200+ аудиокниги. Top 3 наратор в Storytel BG 2025. Услуги: Voice Over, Аудиокниги, Дублаж.';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  lang="bg"
+  canonicalPath="/bg"
+  includePersonSchema={true}
+>
+  <Section as="article">
+    <Container>
+      <div class="hero reveal">
+        <p class="eyebrow">Voice talent · Наратор · Продуцент</p>
+        <h1 class="hero-title">
+          Глас и продукция за български и международни проекти.
+        </h1>
+        <p class="hero-lead muted">
+          Над 200 аудиокниги, 5000+ документални продукции, стотици филми и сериали в дублаж. Top 3 наратор в Storytel BG за 2025 г.
+        </p>
+        <div class="hero-actions">
+          <Button href="/bg/services/audiobooks" variant="primary">Към услугите</Button>
+          <Button href="/bg/contact" variant="ghost">Свържете се</Button>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
+  <Section bordered>
+    <Container>
+      <header class="section-header reveal">
+        <p class="eyebrow">Услуги</p>
+        <h2>Три направления, един професионален стандарт.</h2>
+      </header>
+      <div class="services-grid">
+        <ServiceCard
+          eyebrow="01"
+          title="Voice Over"
+          description="Реклами, документални филми, корпоративни презентации, e-learning. Студийно качество, дисциплинирана продукция."
+          href="/bg/services/voice-over"
+          cta="Виж услугата"
+        />
+        <ServiceCard
+          eyebrow="02"
+          title="Аудиокниги"
+          description="End-to-end модел: клиент дава текст, получава готова книга. Наратор и изпълнителен продуцент в едно лице."
+          href="/bg/services/audiobooks"
+          cta="Флагман услуга"
+          flagship
+        />
+        <ServiceCard
+          eyebrow="03"
+          title="Дублаж"
+          description="Дублаж и озвучаване на филми, сериали и анимация. Опит с водещите български студия."
+          href="/bg/services/dubbing"
+          cta="Виж услугата"
+        />
+      </div>
+    </Container>
+  </Section>
+
+  <Section bordered>
+    <Container>
+      <div class="positioning reveal">
+        <p class="eyebrow">Позициониране</p>
+        <h2 class="positioning-title">
+          Цялостен voice talent с дълбок опит в множество жанрове и формати.
+        </h2>
+        <p class="positioning-lead muted">
+          Актьор, певец, voice talent и продуцент. Председател на ГАРД (Гилдия на артистите регистратори и дублажисти) от 2024 г., втори мандат. Член на УС на АртистАутор. Регулаторна работа върху правата на изпълнителите в епохата на AI.
+        </p>
+        <Button href="/bg/about" variant="ghost">Биография</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .hero {
+    max-width: 920px;
+    padding-block: var(--sp-7);
+  }
+
+  .hero-title {
+    margin-block: var(--sp-4) var(--sp-5);
+    max-width: 18ch;
+  }
+
+  .hero-lead {
+    font-size: var(--fs-md);
+    max-width: 60ch;
+    margin-bottom: var(--sp-7);
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--sp-3);
+    flex-wrap: wrap;
+  }
+
+  .section-header {
+    max-width: 720px;
+    margin-bottom: var(--sp-7);
+  }
+
+  .section-header h2 {
+    margin-top: var(--sp-3);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-5);
+  }
+
+  @media (max-width: 900px) {
+    .services-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .positioning {
+    max-width: 820px;
+  }
+
+  .positioning-title {
+    margin-block: var(--sp-3) var(--sp-5);
+  }
+
+  .positioning-lead {
+    font-size: var(--fs-md);
+    margin-bottom: var(--sp-6);
+  }
+</style>
