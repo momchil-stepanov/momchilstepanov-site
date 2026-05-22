@@ -18,6 +18,7 @@ export default defineConfig({
   },
   integrations: [
     sitemap({
+      filter: (page) => !page.includes('/coming-soon'),
       i18n: {
         defaultLocale: 'bg',
         locales: {

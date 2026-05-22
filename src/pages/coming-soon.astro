@@ -1,0 +1,199 @@
+---
+import { profiles } from '../data/profiles';
+---
+
+<!DOCTYPE html>
+<html lang="bg-BG">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Момчил Степанов — Coming soon</title>
+    <meta
+      name="description"
+      content="Сайтът се изгражда. Очаквайте скоро. — Site under construction. Coming soon."
+    />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Fonts: Cormorant Garamond + Inter, Cyrillic + Latin -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500&display=swap&subset=cyrillic,latin"
+    />
+
+    <!-- OpenGraph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Момчил Степанов — Coming soon" />
+    <meta
+      property="og:description"
+      content="Сайтът се изгражда. Очаквайте скоро."
+    />
+    <meta property="og:url" content="https://momchilstepanov.com/coming-soon" />
+    <meta property="og:locale" content="bg_BG" />
+    <meta property="og:locale:alternate" content="en_US" />
+
+    <style>
+      :root {
+        --bg: #0a0a0a;
+        --fg: #f5f5f5;
+        --muted: #888;
+        --line: #2a2a2a;
+        --font-serif: 'Cormorant Garamond', Georgia, serif;
+        --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      * {
+        margin: 0;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        background: var(--bg);
+        color: var(--fg);
+        font-family: var(--font-sans);
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: 'kern' 1;
+      }
+
+      .landing {
+        min-height: 100svh;
+        display: grid;
+        grid-template-rows: 1fr auto;
+        padding: clamp(1.5rem, 4vw, 3rem);
+        gap: 3rem;
+      }
+
+      .stage {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        max-width: 880px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .brand {
+        font-family: var(--font-serif);
+        font-weight: 500;
+        letter-spacing: -0.01em;
+        line-height: 1.05;
+        font-size: clamp(2.5rem, 8vw, 5.5rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .role {
+        font-family: var(--font-sans);
+        font-size: clamp(0.75rem, 1.2vw, 0.875rem);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        color: var(--muted);
+        margin-bottom: 3rem;
+      }
+
+      .status {
+        display: grid;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        max-width: 36ch;
+      }
+
+      .status p {
+        font-family: var(--font-serif);
+        font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+        font-style: italic;
+        color: var(--fg);
+        line-height: 1.35;
+      }
+
+      .status p[lang='en'] {
+        color: var(--muted);
+        font-size: clamp(1rem, 2vw, 1.25rem);
+      }
+
+      .profiles {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.25rem 2rem;
+        align-items: center;
+        justify-content: center;
+        padding-top: 2rem;
+        border-top: 1px solid var(--line);
+        max-width: 880px;
+        margin: 0 auto;
+        width: 100%;
+      }
+
+      .profiles a {
+        font-family: var(--font-sans);
+        font-size: 0.8125rem;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--muted);
+        text-decoration: none;
+        transition: color 0.2s ease;
+        white-space: nowrap;
+      }
+
+      .profiles a:hover,
+      .profiles a:focus-visible {
+        color: var(--fg);
+      }
+
+      :focus-visible {
+        outline: 1px solid var(--fg);
+        outline-offset: 4px;
+      }
+
+      @media (max-width: 600px) {
+        .profiles {
+          gap: 0.9rem 1.5rem;
+        }
+        .profiles a {
+          font-size: 0.75rem;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="landing">
+      <section class="stage">
+        <h1 class="brand">Момчил Степанов</h1>
+        <p class="role">Voice talent · Narrator · Producer</p>
+        <div class="status">
+          <p>Сайтът се изгражда. Очаквайте скоро.</p>
+          <p lang="en">Site under construction. Coming soon.</p>
+        </div>
+      </section>
+      <nav class="profiles" aria-label="Profiles">
+        {
+          profiles.map((p) => (
+            <a href={p.url} target="_blank" rel="noopener noreferrer">
+              {p.name}
+            </a>
+          ))
+        }
+      </nav>
+    </main>
+  </body>
+</html>

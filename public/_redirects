@@ -1,5 +1,10 @@
 # Cloudflare Pages redirects.
-# Native 301 from root to default locale (Bulgarian) — faster than
-# meta-refresh and SEO-friendly.
+#
+# While the site is under construction, the root path serves a
+# coming-soon landing page (302 — temporary). The localised pages
+# (/bg/*, /en/*) remain directly accessible but are not linked from
+# the landing.
+#
+# When the site launches, change this to: /  /bg  301
 
-/    /bg    301
+/    /coming-soon    302
