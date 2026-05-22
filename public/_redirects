@@ -1,0 +1,5 @@
+# Cloudflare Pages redirects.
+# Native 301 from root to default locale (Bulgarian) — faster than
+# meta-refresh and SEO-friendly.
+
+/    /bg    301
