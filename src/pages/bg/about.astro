@@ -73,15 +73,15 @@ import Button from '../../components/Button.astro';
 </BaseLayout>
 
 <style>
-  .page-header { max-width: 820px; margin-bottom: var(--sp-9); }
-  .page-header h1 { margin-block: var(--sp-3) var(--sp-5); }
+  .page-header { max-width: 820px; margin-bottom: var(--sp-7); }
+  .page-header h1 { margin-block: var(--sp-3) var(--sp-4); }
   .lead { font-size: var(--fs-md); }
 
   .bio-grid {
     display: grid;
     grid-template-columns: 1fr 2fr;
-    gap: var(--sp-8);
-    margin-bottom: var(--sp-9);
+    gap: var(--sp-7);
+    margin-bottom: var(--sp-8);
   }
 
   @media (max-width: 900px) {
@@ -90,7 +90,8 @@ import Button from '../../components/Button.astro';
 
   .portrait-placeholder {
     aspect-ratio: 3 / 4;
-    background: var(--line);
+    background: var(--bg-elevated);
+    color: var(--muted);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,6 +123,8 @@ import Button from '../../components/Button.astro';
 
   .clients-placeholder {
     border: 1px dashed var(--line);
+    background: var(--bg-elevated);
+    color: var(--muted);
     padding: var(--sp-7) var(--sp-6);
     text-align: center;
     margin-top: var(--sp-5);

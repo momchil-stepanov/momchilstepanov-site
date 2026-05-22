@@ -14,6 +14,12 @@ interface Props {
   ogImage?: string;
   /** Hide header (e.g. for hero-immersive pages). Default false. */
   hideHeader?: boolean;
+  /**
+   * Set to true on pages where the hero is immersive (e.g. home) and
+   * already accounts for the fixed header. Default false adds top
+   * padding so content clears the header.
+   */
+  immersiveHero?: boolean;
 }
 
 const {
@@ -24,6 +30,7 @@ const {
   includePersonSchema,
   ogImage,
   hideHeader = false,
+  immersiveHero = false,
 } = Astro.props;
 ---
 
@@ -42,9 +49,20 @@ const {
   <body>
     <a href="#main" class="skip-link">Skip to content</a>
     {!hideHeader && <Header />}
-    <main id="main">
+    <main id="main" class={immersiveHero ? 'main--immersive' : 'main--padded'}>
       <slot />
     </main>
+
+    <style>
+      .main--padded {
+        padding-top: 5rem;
+      }
+      @media (max-width: 900px) {
+        .main--padded {
+          padding-top: 8rem; /* header wraps to multiple rows on mobile */
+        }
+      }
+    </style>
     <Footer />
 
     <script>
