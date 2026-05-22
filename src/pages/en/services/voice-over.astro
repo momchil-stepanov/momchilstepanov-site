@@ -1,0 +1,128 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/Container.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Voice Over Services — Momchil Stepanov"
+  description="Voice Over for advertising, documentary, corporate video, e-learning and IVR. Bulgarian and English. 5,000+ documentary productions in portfolio."
+  lang="en"
+  canonicalPath="/en/services/voice-over"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow">Services · Voice Over</p>
+        <h1>Voice Over</h1>
+        <p class="lead muted">
+          Voice for advertising, documentary, corporate video, e-learning, IVR and navigation systems. 5,000+ documentary productions in portfolio.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>Scope</h2>
+          <ul class="bullets">
+            <li>TV and radio advertising</li>
+            <li>Documentary film (science, history, nature)</li>
+            <li>Corporate video and presentations</li>
+            <li>E-learning and training modules</li>
+            <li>IVR, telephony and navigation</li>
+            <li>Game characters and animation (see also Dubbing)</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>Languages</h2>
+          <p>Bulgarian (native). English (professional level for VO productions).</p>
+
+          <h2>Studio and delivery</h2>
+          <p class="muted">
+            Recording in professional studio. Delivery as WAV / MP3 / AAF to client specification. Sync-loc, ADR and pickups on request. Fast turnaround for advertising projects.
+          </p>
+        </section>
+      </div>
+
+      <section class="process reveal">
+        <h2>Process</h2>
+        <ol class="process-list">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <h3>Brief</h3>
+              <p class="muted">We receive script, references, technical requirements.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <h3>Demo / test recording</h3>
+              <p class="muted">When needed — short sample to approve tone and character.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <h3>Recording</h3>
+              <p class="muted">Final recording at studio quality, multiple takes for selection.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <div>
+              <h3>Delivery</h3>
+              <p class="muted">Final files, revisions where reasonably required.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <div class="cta-row reveal">
+        <Button href="/en/contact" variant="primary">Send inquiry</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header { max-width: 820px; margin-bottom: var(--sp-9); }
+  .page-header h1 { margin-block: var(--sp-3) var(--sp-5); }
+  .lead { font-size: var(--fs-md); }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-9);
+  }
+
+  @media (max-width: 767px) {
+    .content-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
+  }
+
+  .content-grid h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-4); }
+  .content-grid h2:not(:first-of-type) { margin-top: var(--sp-6); }
+
+  .bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); }
+  .bullets li { padding-left: var(--sp-5); position: relative; color: var(--muted); }
+  .bullets li::before { content: '—'; position: absolute; left: 0; color: var(--fg); }
+
+  .process h2 { margin-bottom: var(--sp-6); }
+  .process-list {
+    list-style: none; padding: 0; margin: 0;
+    display: grid; gap: var(--sp-5); max-width: 720px;
+  }
+  .process-list li {
+    display: grid; grid-template-columns: auto 1fr; gap: var(--sp-5);
+    align-items: start;
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--line);
+  }
+  .process-list li:last-child { border-bottom: none; }
+  .step-num { font-family: var(--font-serif); font-size: var(--fs-xl); color: var(--muted); font-style: italic; }
+  .process-list h3 { font-size: var(--fs-md); margin-bottom: var(--sp-2); }
+
+  .cta-row { margin-top: var(--sp-9); }
+</style>

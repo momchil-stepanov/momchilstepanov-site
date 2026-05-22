@@ -1,0 +1,145 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/Container.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Аудиокниги — Момчил Степанов"
+  description="End-to-end продукция на аудиокниги: наратор и изпълнителен продуцент в едно. Над 200 заглавия. Top 3 наратор в Storytel BG за 2025 г."
+  lang="bg"
+  canonicalPath="/bg/services/audiobooks"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow">Услуги · Флагман</p>
+        <h1>Аудиокниги</h1>
+        <p class="lead muted">
+          End-to-end модел: клиент дава текст, получава готова книга. Наратор и изпълнителен продуцент в едно. Над 200 заглавия в портфолиото. Top 3 наратор в Storytel BG за 2025 г.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>Какво включва</h2>
+          <ul class="bullets">
+            <li>Адаптация на текста за слухово възприятие</li>
+            <li>Кастинг при нужда от ансамбъл (моят екип)</li>
+            <li>Наратиране в професионално студио</li>
+            <li>Режисура и контрол на интерпретацията</li>
+            <li>Редакторска чистота и pickup-и</li>
+            <li>Мастеринг по платформените стандарти (Storytel, Audible, ACX)</li>
+            <li>Финална доставка във форматите на клиента</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>За кого</h2>
+          <ul class="bullets">
+            <li>Български издателства — познат партньор за пълен production cycle</li>
+            <li>Чужди издатели — local production partner за БГ пазара</li>
+            <li>Корпоративен нон-фикшън — обучения, бизнес книги, биографии</li>
+          </ul>
+
+          <h2>Жанрове</h2>
+          <p class="muted">
+            Художествена литература, нон-фикшън, биографии, бизнес, документалистика, история, наука. Куратирани топ заглавия по жанр и автор.
+          </p>
+        </section>
+      </div>
+
+      <section class="catalogue reveal">
+        <h2>Каталог</h2>
+        <p class="muted">
+          Куратиран лист от избрани заглавия по жанр и автор ще бъде публикуван тук. Пълен каталог от записаните заглавия е достъпен в Storytel.
+        </p>
+        <div class="catalogue-placeholder">
+          <span class="muted">[Куратиран shortlist на топ заглавия — TBD]</span>
+        </div>
+        <Button href="https://www.storytel.com/bg/narrators/momchil-stepanov-739843" variant="ghost" external>
+          Пълен каталог в Storytel
+        </Button>
+      </section>
+
+      <div class="cta-row reveal">
+        <Button href="/bg/contact" variant="primary">Запитване за аудиокнига</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: 820px;
+    margin-bottom: var(--sp-9);
+  }
+
+  .page-header h1 {
+    margin-block: var(--sp-3) var(--sp-5);
+  }
+
+  .lead {
+    font-size: var(--fs-md);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-9);
+  }
+
+  @media (max-width: 767px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+    }
+  }
+
+  .content-grid h2 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-4);
+  }
+
+  .content-grid h2:not(:first-of-type) {
+    margin-top: var(--sp-6);
+  }
+
+  .bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .bullets li {
+    padding-left: var(--sp-5);
+    position: relative;
+    color: var(--muted);
+  }
+
+  .bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg);
+  }
+
+  .catalogue h2 {
+    margin-bottom: var(--sp-4);
+  }
+
+  .catalogue-placeholder {
+    border: 1px dashed var(--line);
+    padding: var(--sp-6);
+    text-align: center;
+    margin-block: var(--sp-5);
+  }
+
+  .cta-row {
+    margin-top: var(--sp-9);
+  }
+</style>

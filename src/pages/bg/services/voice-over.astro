@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/Container.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Voice Over услуги — Момчил Степанов"
+  description="Voice Over за реклами, документални филми, корпоративни видеа, e-learning и IVR. Български и английски. Над 5000 документални продукции в портфолиото."
+  lang="bg"
+  canonicalPath="/bg/services/voice-over"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow">Услуги · Voice Over</p>
+        <h1>Voice Over</h1>
+        <p class="lead muted">
+          Глас за реклами, документални филми, корпоративни видеа, e-learning, IVR и навигационни системи. Опит от над 5000 документални продукции.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>Обхват</h2>
+          <ul class="bullets">
+            <li>Телевизионни и радио реклами</li>
+            <li>Документални филми (научни, исторически, природни)</li>
+            <li>Корпоративни видеа и презентации</li>
+            <li>E-learning и обучителни модули</li>
+            <li>IVR, telephony и навигация</li>
+            <li>Game characters и анимация (виж и Дублаж)</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>Езици</h2>
+          <p>Български (native). Английски (професионално ниво за VO продукции).</p>
+
+          <h2>Студио и доставка</h2>
+          <p class="muted">
+            Запис в професионално студио. Доставка като WAV / MP3 / AAF, по спецификация на клиента. Sync-loc, ADR и pickup-и при нужда. Бързи срокове за рекламни проекти.
+          </p>
+        </section>
+      </div>
+
+      <section class="process reveal">
+        <h2>Процес</h2>
+        <ol class="process-list">
+          <li>
+            <span class="step-num">01</span>
+            <div>
+              <h3>Бриф</h3>
+              <p class="muted">Получаваме скрипт, референции, технически изисквания.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">02</span>
+            <div>
+              <h3>Демо / тестов запис</h3>
+              <p class="muted">При нужда — къс sample за одобрение на тона и характера.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">03</span>
+            <div>
+              <h3>Запис</h3>
+              <p class="muted">Финален запис със студийно качество, multiple takes за избор.</p>
+            </div>
+          </li>
+          <li>
+            <span class="step-num">04</span>
+            <div>
+              <h3>Доставка</h3>
+              <p class="muted">Готови файлове, ревизии при обоснована необходимост.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <div class="cta-row reveal">
+        <Button href="/bg/contact" variant="primary">Запитване</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header {
+    max-width: 820px;
+    margin-bottom: var(--sp-9);
+  }
+
+  .page-header h1 {
+    margin-block: var(--sp-3) var(--sp-5);
+  }
+
+  .lead {
+    font-size: var(--fs-md);
+  }
+
+  .content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8);
+    margin-bottom: var(--sp-9);
+  }
+
+  @media (max-width: 767px) {
+    .content-grid {
+      grid-template-columns: 1fr;
+      gap: var(--sp-6);
+    }
+  }
+
+  .content-grid h2 {
+    font-size: var(--fs-lg);
+    margin-bottom: var(--sp-4);
+  }
+
+  .content-grid h2:not(:first-of-type) {
+    margin-top: var(--sp-6);
+  }
+
+  .bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--sp-2);
+  }
+
+  .bullets li {
+    padding-left: var(--sp-5);
+    position: relative;
+    color: var(--muted);
+  }
+
+  .bullets li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--fg);
+  }
+
+  .process h2 {
+    margin-bottom: var(--sp-6);
+  }
+
+  .process-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: var(--sp-5);
+    max-width: 720px;
+  }
+
+  .process-list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--sp-5);
+    align-items: start;
+    padding-bottom: var(--sp-5);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .process-list li:last-child {
+    border-bottom: none;
+  }
+
+  .step-num {
+    font-family: var(--font-serif);
+    font-size: var(--fs-xl);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .process-list h3 {
+    font-size: var(--fs-md);
+    margin-bottom: var(--sp-2);
+  }
+
+  .cta-row {
+    margin-top: var(--sp-9);
+  }
+</style>

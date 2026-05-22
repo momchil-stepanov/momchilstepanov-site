@@ -1,0 +1,96 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Container from '../../../components/Container.astro';
+import Section from '../../../components/Section.astro';
+import Button from '../../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Audiobooks — Momchil Stepanov"
+  description="End-to-end audiobook production: narrator and executive producer in one. 200+ titles. Top 3 narrator on Storytel BG for 2025."
+  lang="en"
+  canonicalPath="/en/services/audiobooks"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow">Services · Flagship</p>
+        <h1>Audiobooks</h1>
+        <p class="lead muted">
+          End-to-end model: client provides text, receives a finished book. Narrator and executive producer in one. 200+ titles in portfolio. Top 3 narrator on Storytel BG for 2025.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>What is included</h2>
+          <ul class="bullets">
+            <li>Text adaptation for audio</li>
+            <li>Ensemble casting from our network when required</li>
+            <li>Narration in professional studio</li>
+            <li>Direction and performance oversight</li>
+            <li>Editorial cleanup and pickups</li>
+            <li>Mastering to platform standards (Storytel, Audible, ACX)</li>
+            <li>Final delivery in client formats</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>For whom</h2>
+          <ul class="bullets">
+            <li>Bulgarian publishers — trusted partner for full production cycle</li>
+            <li>Foreign publishers — local production partner for the BG market</li>
+            <li>Corporate non-fiction — training, business books, biographies</li>
+          </ul>
+
+          <h2>Genres</h2>
+          <p class="muted">
+            Fiction, non-fiction, biography, business, documentary, history, science. Curated top titles by genre and author.
+          </p>
+        </section>
+      </div>
+
+      <section class="catalogue reveal">
+        <h2>Catalogue</h2>
+        <p class="muted">
+          A curated shortlist of selected titles by genre and author will be published here. Full catalogue of recorded titles is available on Storytel.
+        </p>
+        <div class="catalogue-placeholder">
+          <span class="muted">[Curated top-titles shortlist — TBD]</span>
+        </div>
+        <Button href="https://www.storytel.com/bg/narrators/momchil-stepanov-739843" variant="ghost" external>
+          Full catalogue on Storytel
+        </Button>
+      </section>
+
+      <div class="cta-row reveal">
+        <Button href="/en/contact" variant="primary">Audiobook inquiry</Button>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header { max-width: 820px; margin-bottom: var(--sp-9); }
+  .page-header h1 { margin-block: var(--sp-3) var(--sp-5); }
+  .lead { font-size: var(--fs-md); }
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8); margin-bottom: var(--sp-9);
+  }
+  @media (max-width: 767px) {
+    .content-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
+  }
+  .content-grid h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-4); }
+  .content-grid h2:not(:first-of-type) { margin-top: var(--sp-6); }
+  .bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); }
+  .bullets li { padding-left: var(--sp-5); position: relative; color: var(--muted); }
+  .bullets li::before { content: '—'; position: absolute; left: 0; color: var(--fg); }
+  .catalogue h2 { margin-bottom: var(--sp-4); }
+  .catalogue-placeholder {
+    border: 1px dashed var(--line);
+    padding: var(--sp-6); text-align: center;
+    margin-block: var(--sp-5);
+  }
+  .cta-row { margin-top: var(--sp-9); }
+</style>
