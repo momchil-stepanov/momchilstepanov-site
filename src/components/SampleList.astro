@@ -1,0 +1,537 @@
+---
+import type { Sample } from '../types/sample';
+import type { Lang } from '../i18n/ui';
+
+interface Props {
+  samples: Sample[];
+  lang: Lang;
+  /** Unique key for the list — used as DOM id prefix. */
+  listId: string;
+}
+
+const { samples, lang, listId } = Astro.props;
+
+const labels = {
+  bg: {
+    play: 'Пусни',
+    pause: 'Пауза',
+    listenLabel: (title: string) => `Прослушай: ${title}`,
+    loading: 'Зарежда…',
+    unavailable: 'Аудиото не е налично',
+  },
+  en: {
+    play: 'Play',
+    pause: 'Pause',
+    listenLabel: (title: string) => `Listen: ${title}`,
+    loading: 'Loading…',
+    unavailable: 'Audio unavailable',
+  },
+}[lang];
+---
+
+<ul class="sample-list" id={listId} data-sample-list>
+  {
+    samples.map((sample) => {
+      const itemId = `${listId}-${sample.id}`;
+      const playerId = `${itemId}-player`;
+      const waveformId = `${itemId}-waveform`;
+      return (
+        <li class="sample-item" data-sample-item data-audio-url={sample.audioUrl}>
+          <button
+            type="button"
+            class="sample-trigger"
+            aria-expanded="false"
+            aria-controls={playerId}
+            data-sample-trigger
+          >
+            <span class="sample-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" width="14" height="14" class="icon icon-play">
+                <path d="M5 3 L21 12 L5 21 Z" fill="currentColor" />
+              </svg>
+              <svg viewBox="0 0 24 24" width="14" height="14" class="icon icon-pause">
+                <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+                <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+              </svg>
+            </span>
+
+            <span class="sample-text">
+              <span class="sample-title">{sample.title[lang]}</span>
+              <span class="sample-desc">{sample.description[lang]}</span>
+            </span>
+
+            <span class="sample-duration" aria-label={labels.listenLabel(sample.title[lang])}>
+              {sample.duration}
+            </span>
+          </button>
+
+          <div
+            id={playerId}
+            class="sample-player"
+            hidden
+            data-sample-player
+            data-waveform-id={waveformId}
+          >
+            <div class="player-inner">
+              <button
+                type="button"
+                class="player-playpause"
+                aria-label={labels.play}
+                data-player-playpause
+              >
+                <svg viewBox="0 0 24 24" width="20" height="20" class="icon icon-play">
+                  <path d="M5 3 L21 12 L5 21 Z" fill="currentColor" />
+                </svg>
+                <svg viewBox="0 0 24 24" width="20" height="20" class="icon icon-pause">
+                  <rect x="6" y="4" width="4" height="16" fill="currentColor" />
+                  <rect x="14" y="4" width="4" height="16" fill="currentColor" />
+                </svg>
+              </button>
+
+              <div class="player-waveform" id={waveformId} data-waveform />
+
+              <div class="player-time" aria-live="off">
+                <span class="time-current" data-time-current>0:00</span>
+                <span class="time-sep" aria-hidden="true">/</span>
+                <span class="time-total" data-time-total>{sample.duration}</span>
+              </div>
+
+              <button
+                type="button"
+                class="player-volume"
+                aria-label="Volume"
+                data-player-volume
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path
+                    d="M4 9 L4 15 L8 15 L13 19 L13 5 L8 9 Z M16 8 Q20 12 16 16 M18 5 Q24 12 18 19"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.5"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+
+            <p class="player-status muted" data-player-status hidden></p>
+          </div>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<script>
+  /**
+   * Sample accordion + WaveSurfer player.
+   * - Lazy-loads WaveSurfer on first expansion (no cost on page load).
+   * - Single-open behaviour: opening one collapses the others.
+   * - Respects prefers-reduced-motion.
+   */
+
+  type WaveSurferModule = typeof import('wavesurfer.js');
+  let waveSurferModulePromise: Promise<WaveSurferModule> | null = null;
+
+  function loadWaveSurfer(): Promise<WaveSurferModule> {
+    if (!waveSurferModulePromise) {
+      waveSurferModulePromise = import('wavesurfer.js');
+    }
+    return waveSurferModulePromise;
+  }
+
+  const PALETTE = {
+    waveColor: '#888',
+    progressColor: '#f5f5f5',
+    cursorColor: '#f5f5f5',
+  };
+
+  interface ItemState {
+    item: HTMLElement;
+    trigger: HTMLButtonElement;
+    player: HTMLElement;
+    playpause: HTMLButtonElement;
+    timeCurrent: HTMLElement;
+    status: HTMLElement;
+    waveformEl: HTMLElement;
+    audioUrl: string;
+    wavesurfer: any;
+    initialized: boolean;
+  }
+
+  function setup(list: HTMLElement) {
+    const items = Array.from(list.querySelectorAll<HTMLElement>('[data-sample-item]'));
+    const states: ItemState[] = items.map((item) => {
+      const trigger = item.querySelector<HTMLButtonElement>('[data-sample-trigger]')!;
+      const player = item.querySelector<HTMLElement>('[data-sample-player]')!;
+      const playpause = item.querySelector<HTMLButtonElement>('[data-player-playpause]')!;
+      const timeCurrent = item.querySelector<HTMLElement>('[data-time-current]')!;
+      const status = item.querySelector<HTMLElement>('[data-player-status]')!;
+      const waveformEl = item.querySelector<HTMLElement>('[data-waveform]')!;
+      const audioUrl = item.getAttribute('data-audio-url') || '';
+      return {
+        item,
+        trigger,
+        player,
+        playpause,
+        timeCurrent,
+        status,
+        waveformEl,
+        audioUrl,
+        wavesurfer: null,
+        initialized: false,
+      };
+    });
+
+    function collapse(state: ItemState) {
+      if (!state) return;
+      state.trigger.setAttribute('aria-expanded', 'false');
+      state.player.hidden = true;
+      state.item.classList.remove('is-active');
+      if (state.wavesurfer) {
+        try {
+          state.wavesurfer.pause();
+        } catch {}
+      }
+    }
+
+    function setStatus(state: ItemState, text: string | null) {
+      if (!text) {
+        state.status.hidden = true;
+        state.status.textContent = '';
+      } else {
+        state.status.hidden = false;
+        state.status.textContent = text;
+      }
+    }
+
+    async function expand(state: ItemState) {
+      // Collapse any other open item first
+      states.forEach((s) => {
+        if (s !== state) collapse(s);
+      });
+
+      state.trigger.setAttribute('aria-expanded', 'true');
+      state.player.hidden = false;
+      state.item.classList.add('is-active');
+
+      if (state.initialized) return;
+      state.initialized = true;
+
+      setStatus(state, 'Loading…');
+
+      try {
+        const mod = await loadWaveSurfer();
+        const WaveSurfer = mod.default;
+        const ws = WaveSurfer.create({
+          container: state.waveformEl,
+          waveColor: PALETTE.waveColor,
+          progressColor: PALETTE.progressColor,
+          cursorColor: PALETTE.cursorColor,
+          height: 56,
+          barWidth: 2,
+          barGap: 2,
+          barRadius: 1,
+          normalize: true,
+          url: state.audioUrl,
+        });
+        state.wavesurfer = ws;
+
+        ws.on('ready', () => setStatus(state, null));
+        ws.on('error', () => {
+          setStatus(state, 'Audio unavailable');
+        });
+        ws.on('audioprocess', () => {
+          state.timeCurrent.textContent = formatTime(ws.getCurrentTime());
+        });
+        ws.on('seeking', () => {
+          state.timeCurrent.textContent = formatTime(ws.getCurrentTime());
+        });
+        ws.on('finish', () => {
+          state.playpause.setAttribute('aria-pressed', 'false');
+          state.item.classList.remove('is-playing');
+        });
+      } catch (e) {
+        setStatus(state, 'Audio unavailable');
+      }
+    }
+
+    function formatTime(sec: number): string {
+      if (!isFinite(sec)) return '0:00';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    states.forEach((state) => {
+      state.trigger.addEventListener('click', () => {
+        const isOpen = state.trigger.getAttribute('aria-expanded') === 'true';
+        if (isOpen) {
+          collapse(state);
+        } else {
+          expand(state);
+        }
+      });
+
+      state.playpause.addEventListener('click', async () => {
+        if (!state.wavesurfer) return;
+        const playing = state.wavesurfer.isPlaying?.() ?? false;
+        if (playing) {
+          state.wavesurfer.pause();
+          state.item.classList.remove('is-playing');
+          state.playpause.setAttribute('aria-pressed', 'false');
+        } else {
+          // Pause other players
+          states.forEach((s) => {
+            if (s !== state && s.wavesurfer?.isPlaying?.()) {
+              s.wavesurfer.pause();
+              s.item.classList.remove('is-playing');
+              s.playpause.setAttribute('aria-pressed', 'false');
+            }
+          });
+          state.wavesurfer.play();
+          state.item.classList.add('is-playing');
+          state.playpause.setAttribute('aria-pressed', 'true');
+        }
+      });
+
+      // Space key on focused playpause toggles
+      state.playpause.addEventListener('keydown', (e: KeyboardEvent) => {
+        if (e.key === ' ' || e.code === 'Space') {
+          e.preventDefault();
+          state.playpause.click();
+        }
+      });
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-sample-list]').forEach(setup);
+</script>
+
+<style>
+  .sample-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .sample-item {
+    border-bottom: 1px solid var(--line);
+    border-left: 2px solid transparent;
+    transition: border-color var(--t-base), background var(--t-fast);
+  }
+
+  .sample-item.is-active {
+    border-left-color: var(--fg);
+  }
+
+  /* ============================================================
+     Trigger row
+     ============================================================ */
+  .sample-trigger {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--sp-4);
+    width: 100%;
+    padding: var(--sp-4) var(--sp-5);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--fg);
+    text-align: left;
+    transition: background var(--t-fast);
+  }
+
+  .sample-trigger:hover,
+  .sample-trigger:focus-visible {
+    background: var(--bg-elevated);
+  }
+
+  .sample-icon {
+    width: 28px;
+    height: 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--muted);
+    transition: color var(--t-fast);
+  }
+
+  .sample-trigger:hover .sample-icon,
+  .sample-item.is-active .sample-icon {
+    color: var(--fg);
+  }
+
+  /* Default state: show play icon, hide pause */
+  .sample-icon .icon-pause { display: none; }
+  .sample-item.is-playing .sample-icon .icon-play { display: none; }
+  .sample-item.is-playing .sample-icon .icon-pause { display: inline-block; }
+
+  .sample-text {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .sample-title {
+    font-family: var(--font-serif);
+    font-size: 1.125rem; /* 18px */
+    line-height: 1.25;
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .sample-desc {
+    font-family: var(--font-sans);
+    font-size: 0.75rem; /* 12px */
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .sample-duration {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================
+     Expanded player
+     ============================================================ */
+  .sample-player {
+    padding: var(--sp-4) var(--sp-5) var(--sp-6);
+    background: var(--bg-flagship);
+  }
+
+  .sample-player[hidden] {
+    display: none;
+  }
+
+  .player-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  .player-playpause {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--fg);
+    background: transparent;
+    color: var(--fg);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background var(--t-fast), color var(--t-fast);
+    flex-shrink: 0;
+  }
+
+  .player-playpause:hover,
+  .player-playpause:focus-visible {
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .player-playpause .icon-pause { display: none; }
+  .sample-item.is-playing .player-playpause .icon-play { display: none; }
+  .sample-item.is-playing .player-playpause .icon-pause { display: inline-block; }
+
+  .player-waveform {
+    min-height: 56px;
+    width: 100%;
+    cursor: pointer;
+  }
+
+  .player-time {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+
+  .player-time .time-current {
+    color: var(--fg);
+  }
+
+  .player-volume {
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--t-fast);
+    flex-shrink: 0;
+  }
+
+  .player-volume:hover { color: var(--fg); }
+
+  .player-status {
+    margin-top: var(--sp-3);
+    font-size: 0.8125rem;
+    text-align: center;
+  }
+
+  /* ============================================================
+     Reduced motion
+     ============================================================ */
+  @media (prefers-reduced-motion: reduce) {
+    .sample-item,
+    .sample-trigger,
+    .sample-icon,
+    .player-playpause,
+    .player-volume {
+      transition: none;
+    }
+  }
+
+  /* ============================================================
+     Mobile
+     ============================================================ */
+  @media (max-width: 640px) {
+    .sample-trigger {
+      padding: var(--sp-4);
+      gap: var(--sp-3);
+    }
+
+    .sample-title {
+      font-size: 1rem;
+    }
+
+    .sample-player {
+      padding: var(--sp-4);
+    }
+
+    .player-inner {
+      grid-template-columns: auto 1fr auto;
+      gap: var(--sp-3);
+    }
+
+    .player-waveform {
+      min-height: 44px;
+    }
+
+    .player-volume {
+      display: none; /* hide volume on tight mobile */
+    }
+
+    .player-playpause {
+      width: 44px;
+      height: 44px;
+    }
+  }
+</style>

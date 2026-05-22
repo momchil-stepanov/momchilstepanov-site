@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Момчил Степанов</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f5f5f5;
+    --muted: #888;
+    --line: #2a2a2a;
+    --accent: #e8e8e8;
+  }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  /* Subtle grain overlay for film texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.5;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(180deg, rgba(10,10,10,0.9), transparent);
+  }
+  .brand {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+  }
+  nav {
+    display: flex;
+    gap: 40px;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 400;
+  }
+  nav a {
+    color: var(--fg);
+    text-decoration: none;
+    opacity: 0.7;
+    transition: opacity 0.3s;
+  }
+  nav a:hover { opacity: 1; }
+  .lang {
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    opacity: 0.5;
+  }
+  .lang span.active { opacity: 1; }
+  
+  /* HERO */
+  .hero {
+    height: 100vh;
+    min-height: 700px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: end;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-image {
+    grid-column: 2;
+    height: 100vh;
+    min-height: 700px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 55%;
+    background-image: url('portrait.png');
+    background-size: cover;
+    background-position: center;
+    /* fade to background on edges */
+    mask-image: linear-gradient(90deg, transparent 0%, black 25%, black 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 25%, black 100%);
+  }
+  .hero-content {
+    grid-column: 1;
+    padding: 0 48px 120px 80px;
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+  .eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-weight: 500;
+  }
+  .eyebrow::before {
+    content: '— ';
+  }
+  h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 88px;
+    line-height: 0.95;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+  }
+  h1 em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .lead {
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 48px;
+  }
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 32px;
+    border: 1px solid var(--fg);
+    color: var(--fg);
+    text-decoration: none;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+  }
+  .cta:hover {
+    background: var(--fg);
+    color: var(--bg);
+  }
+  .cta-arrow {
+    transition: transform 0.3s;
+  }
+  .cta:hover .cta-arrow {
+    transform: translateX(4px);
+  }
+  
+  /* Vertical text on the side */
+  .side-marker {
+    position: absolute;
+    left: 32px;
+    bottom: 48px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.6;
+  }
+  
+  /* Numbers showcase */
+  .stats {
+    padding: 120px 80px;
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 48px;
+  }
+  .stat {
+    border-left: 1px solid var(--line);
+    padding-left: 24px;
+  }
+  .stat-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 400;
+    margin-bottom: 12px;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  
+  /* Services section */
+  .services {
+    padding: 120px 80px;
+    border-top: 1px solid var(--line);
+  }
+  .section-header {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 80px;
+    margin-bottom: 96px;
+    align-items: end;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 56px;
+    line-height: 1;
+    font-weight: 500;
+  }
+  .section-title em {
+    font-style: italic;
+    font-weight: 400;
+  }
+  .section-intro {
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 500px;
+  }
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .service {
+    background: var(--bg);
+    padding: 48px 40px 64px;
+    cursor: pointer;
+    transition: background 0.3s;
+    position: relative;
+  }
+  .service:hover {
+    background: #141414;
+  }
+  .service-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    font-style: italic;
+  }
+  .service h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 20px;
+  }
+  .service p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .service-link {
+    position: absolute;
+    bottom: 32px;
+    right: 32px;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .service:hover .service-link {
+    opacity: 0.7;
+  }
+  
+  .flagship {
+    background: #0d0d0d;
+    border-left: 2px solid var(--fg);
+  }
+  .flagship .service-number {
+    color: var(--fg);
+  }
+  .flagship-badge {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">Момчил Степанов</div>
+  <nav>
+    <a href="#">Начало</a>
+    <a href="#">Услуги</a>
+    <a href="#">Музика</a>
+    <a href="#">За мен</a>
+    <a href="#">Контакт</a>
+  </nav>
+  <div class="lang">
+    <span class="active">BG</span> / <span>EN</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-image"></div>
+  <div class="side-marker">MS — Sofia, Bulgaria</div>
+  <div class="hero-content">
+    <div class="eyebrow">Voice talent · Narrator · Producer</div>
+    <h1>Глас за <em>истории</em>, които остават.</h1>
+    <p class="lead">Гласовите ми услуги обхващат реклами, документални филми, дублаж и аудиокниги. От продукция за български издатели до международни проекти.</p>
+    <a href="#" class="cta">
+      <span>Чуй демото</span>
+      <span class="cta-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <div class="stat-number">200<sup style="font-size: 32px;">+</sup></div>
+    <div class="stat-label">Аудиокниги</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">5 000<sup style="font-size: 32px;">+</sup></div>
+    <div class="stat-label">Документални</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">№3</div>
+    <div class="stat-label">Storytel BG 2025</div>
+  </div>
+  <div class="stat">
+    <div class="stat-number">20<sup style="font-size: 32px;">+</sup></div>
+    <div class="stat-label">Години опит</div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="section-header">
+    <h2 class="section-title">Какво <em>предлагам</em></h2>
+    <p class="section-intro">Гласът ми е инструмент с широк регистър — от интимна нарация до драматичен дублаж, от корпоративен voice over до пълно audiobook продуциране.</p>
+  </div>
+  
+  <div class="service-grid">
+    <div class="service">
+      <div class="service-number">01 / Voice Over</div>
+      <h3>Voice Over</h3>
+      <p>Реклами, документални филми, корпоративни проекти, e-learning. Студийно качество, бърз turnaround.</p>
+      <div class="service-link">Виж повече →</div>
+    </div>
+    
+    <div class="service flagship">
+      <div class="flagship-badge">— Флагман</div>
+      <div class="service-number">02 / Audiobooks</div>
+      <h3>Аудиокниги</h3>
+      <p>End-to-end продукция. Давате текста, получавате готовата книга — наратор и изпълнителен продуцент в едно.</p>
+      <div class="service-link">Виж повече →</div>
+    </div>
+    
+    <div class="service">
+      <div class="service-number">03 / Dubbing</div>
+      <h3>Дублаж</h3>
+      <p>Дублаж и озвучаване за филми, сериали, анимация. Опит с водещите студия в България.</p>
+      <div class="service-link">Виж повече →</div>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

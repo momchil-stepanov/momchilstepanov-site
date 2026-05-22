@@ -3,6 +3,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 import Container from '../../../components/Container.astro';
 import Section from '../../../components/Section.astro';
 import Button from '../../../components/Button.astro';
+import SampleList from '../../../components/SampleList.astro';
+import { advertisingSamples } from '../../../data/samples/advertising';
 ---
 
 <BaseLayout
@@ -79,6 +81,16 @@ import Button from '../../../components/Button.astro';
         </ol>
       </section>
 
+      <section class="samples reveal" aria-labelledby="samples-heading">
+        <header class="samples-header">
+          <h2 id="samples-heading">Селекция от работи</h2>
+          <p class="muted">
+            Кратка извадка от записи. Натиснете върху ред, за да разгърнете плеъра.
+          </p>
+        </header>
+        <SampleList samples={advertisingSamples} lang="bg" listId="advertising-bg" />
+      </section>
+
       <div class="cta-row reveal">
         <Button href="/bg/contact" variant="primary">Запитване за реклама</Button>
       </div>
@@ -144,6 +156,10 @@ import Button from '../../../components/Button.astro';
     font-size: var(--fs-md);
     margin-bottom: var(--sp-2);
   }
+
+  .samples { margin-top: var(--sp-9); }
+  .samples-header { margin-bottom: var(--sp-6); max-width: 60ch; }
+  .samples-header h2 { font-size: var(--fs-2xl); margin-bottom: var(--sp-3); }
 
   .cta-row { margin-top: var(--sp-9); }
 </style>
