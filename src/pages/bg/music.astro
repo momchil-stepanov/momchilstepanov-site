@@ -1,0 +1,101 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/Container.astro';
+import Section from '../../components/Section.astro';
+import Button from '../../components/Button.astro';
+---
+
+<BaseLayout
+  title="Музика — Момчил Степанов"
+  description="Авторска музика, песни от български адаптации на анимационни филми, live изпълнения. YouTube канал и избрани записи."
+  lang="bg"
+  canonicalPath="/bg/music"
+>
+  <Section as="article">
+    <Container>
+      <header class="page-header reveal">
+        <p class="eyebrow">Музика</p>
+        <h1>Авторска музика и песни</h1>
+        <p class="lead muted">
+          Авторска музика, песни от български адаптации на анимационни филми, live изпълнения. Гласът като инструмент извън наратива.
+        </p>
+      </header>
+
+      <div class="content-grid">
+        <section class="reveal">
+          <h2>Направления</h2>
+          <ul class="bullets">
+            <li>Авторска музика и песни</li>
+            <li>Песни от анимационни филми (БГ адаптации)</li>
+            <li>Live изпълнения</li>
+            <li>Колаборации с други изпълнители и автори</li>
+          </ul>
+        </section>
+
+        <section class="reveal">
+          <h2>YouTube канал</h2>
+          <p class="muted">
+            Видео материали, live записи и музикални проекти се публикуват в YouTube канала. Каналът преминава от @manndalay към @momchilstepanov.
+          </p>
+          <div style="margin-top: var(--sp-5);">
+            <Button href="https://www.youtube.com/@manndalay" variant="ghost" external>
+              Към YouTube канала
+            </Button>
+          </div>
+        </section>
+      </div>
+
+      <section class="featured reveal">
+        <h2>Избрани записи</h2>
+        <div class="tracks-grid">
+          <div class="track-placeholder">
+            <span class="muted">[Запис 01 — TBD]</span>
+          </div>
+          <div class="track-placeholder">
+            <span class="muted">[Запис 02 — TBD]</span>
+          </div>
+          <div class="track-placeholder">
+            <span class="muted">[Запис 03 — TBD]</span>
+          </div>
+        </div>
+      </section>
+    </Container>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page-header { max-width: 820px; margin-bottom: var(--sp-9); }
+  .page-header h1 { margin-block: var(--sp-3) var(--sp-5); }
+  .lead { font-size: var(--fs-md); }
+
+  .content-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: var(--sp-8); margin-bottom: var(--sp-9);
+  }
+  @media (max-width: 767px) {
+    .content-grid { grid-template-columns: 1fr; gap: var(--sp-6); }
+  }
+  .content-grid h2 { font-size: var(--fs-lg); margin-bottom: var(--sp-4); }
+
+  .bullets { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--sp-2); }
+  .bullets li { padding-left: var(--sp-5); position: relative; color: var(--muted); }
+  .bullets li::before { content: '—'; position: absolute; left: 0; color: var(--fg); }
+
+  .featured h2 { margin-bottom: var(--sp-5); }
+
+  .tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--sp-4);
+  }
+
+  @media (max-width: 767px) {
+    .tracks-grid { grid-template-columns: 1fr; }
+  }
+
+  .track-placeholder {
+    aspect-ratio: 1 / 1;
+    border: 1px dashed var(--line);
+    display: flex; align-items: center; justify-content: center;
+  }
+</style>
