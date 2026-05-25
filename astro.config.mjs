@@ -6,6 +6,19 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://momchilstepanov.com',
   trailingSlash: 'never',
+  // Force all <script> blocks to be emitted as external bundled chunks.
+  // Default behaviour in Astro 6 is to inline small scripts directly
+  // into HTML, which on Cloudflare Pages edge runtime triggers a 500
+  // when combined with Cyrillic-heavy HTML above ~24 KB.
+  build: {
+    inlineStylesheets: 'auto',
+  },
+  vite: {
+    build: {
+      // Push all asset inlining off; emit scripts as separate files.
+      assetsInlineLimit: 0,
+    },
+  },
   i18n: {
     locales: ['bg', 'en'],
     defaultLocale: 'bg',

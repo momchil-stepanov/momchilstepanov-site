@@ -118,67 +118,7 @@ const servicesOpen = currentPath.startsWith(`${base}/services`);
 </div>
 
 <script>
-  const burger = document.querySelector<HTMLButtonElement>('[data-burger]');
-  const menu = document.querySelector<HTMLElement>('[data-menu]');
-  const submenuToggle = document.querySelector<HTMLButtonElement>('[data-submenu-toggle]');
-  const submenu = document.querySelector<HTMLElement>('[data-submenu]');
-  const closeTriggers = document.querySelectorAll<HTMLElement>('[data-close]');
-
-  if (burger && menu) {
-    const open = () => {
-      menu.hidden = false;
-      // Allow next frame so transition can play
-      requestAnimationFrame(() => {
-        document.body.classList.add('is-menu-open');
-        burger.classList.add('is-active');
-        burger.setAttribute('aria-expanded', 'true');
-        burger.setAttribute('aria-label', 'Close menu');
-        menu.classList.add('is-open');
-      });
-    };
-
-    const close = () => {
-      document.body.classList.remove('is-menu-open');
-      burger.classList.remove('is-active');
-      burger.setAttribute('aria-expanded', 'false');
-      burger.setAttribute('aria-label', 'Open menu');
-      menu.classList.remove('is-open');
-      // Wait for transition before hiding (matches CSS .3s)
-      setTimeout(() => {
-        if (!menu.classList.contains('is-open')) menu.hidden = true;
-      }, 300);
-    };
-
-    burger.addEventListener('click', () => {
-      const isOpen = menu.classList.contains('is-open');
-      isOpen ? close() : open();
-    });
-
-    closeTriggers.forEach((el) => {
-      el.addEventListener('click', () => close());
-    });
-
-    // Close on Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && menu.classList.contains('is-open')) {
-        close();
-      }
-    });
-
-    // Close on tap of overlay backdrop (clicks on the dialog element itself,
-    // not its children — children stop propagation via being interactive)
-    menu.addEventListener('click', (e) => {
-      if (e.target === menu) close();
-    });
-  }
-
-  if (submenuToggle && submenu) {
-    submenuToggle.addEventListener('click', () => {
-      const expanded = submenuToggle.getAttribute('aria-expanded') === 'true';
-      submenuToggle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-      submenu.hidden = expanded;
-    });
-  }
+  import '../scripts/mobile-menu';
 </script>
 
 <style is:global>
